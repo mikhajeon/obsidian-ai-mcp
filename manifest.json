@@ -1,10 +1,10 @@
 {
 	"id": "obsidian-ai-mcp",
 	"name": "Obsidian AI MCP",
-	"version": "1.0.0",
+	"version": "0.0.1",
 	"minAppVersion": "0.15.0",
 	"description": "MCP server for Obsidian - Connect your vault to Claude AI with full read/write capabilities",
-	"author": "Your Name",
-	"authorUrl": "",
+	"author": "mikhajeon",
+	"authorUrl": "https://github.com/mikhajeon",
 	"isDesktopOnly": true
 }
