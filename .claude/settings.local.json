@@ -6,7 +6,10 @@
       "Read(//c/Users/Mikha/AppData/Roaming/Claude/logs/**)",
       "Bash(netstat:*)",
       "Bash(findstr:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(tree:*)",
+      "Bash(git commit:*)",
+      "Bash(npm version:*)"
     ],
     "deny": [],
     "ask": []
