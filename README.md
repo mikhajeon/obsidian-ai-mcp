@@ -3,7 +3,7 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/mikhajeon/obsidian-ai-mcp)](https://github.com/mikhajeon/obsidian-ai-mcp/releases)
 [![License](https://img.shields.io/github/license/mikhajeon/obsidian-ai-mcp)](LICENSE)
 
-[Features](#features) | [Installation](#installation) | [Configuration](#configuration) | [Troubleshooting](#troubleshooting) | [Security](#security) | [Development](#development) | [Support](#support)
+[Features](#features) | [Installation](#installation) | [Usage](#usage) | [Troubleshooting](#troubleshooting) | [Security](#security) | [Development](#development) | [Support](#support)
 
 ---
 
@@ -28,16 +28,10 @@ All features require an MCP-compatible client like Claude Desktop, as this plugi
 
 ## Prerequisites
 
-### Required
-
 - **Obsidian** v0.15.0 or higher (Desktop only)
 - **Claude Desktop** installed and configured ([Download here](https://claude.ai/download))
-- **Node.js** v16.0 or higher ([Download here](https://nodejs.org/))
 
-### Recommended
-
-- Basic familiarity with command line/terminal
-- Understanding of file paths on your operating system
+**Note:** Node.js is only required for manual installation or development. If installing from Community Plugins, no additional software is needed.
 
 ## Installation
 
@@ -49,26 +43,9 @@ All features require an MCP-compatible client like Claude Desktop, as this plugi
 4. Click **Install**
 5. Once installed, click **Enable**
 
-That's it! The plugin is now installed.
+### Configure Plugin Settings
 
-### Manual Installation (For Development)
-
-Only needed if you want to install before the plugin is available in Community Plugins or for development:
-
-1. Download the latest release from [GitHub Releases](https://github.com/mikhajeon/obsidian-ai-mcp/releases)
-2. Extract `main.js`, `manifest.json`, and `styles.css` to:
-   ```
-   {vault}/.obsidian/plugins/obsidian-ai-mcp/
-   ```
-3. Reload Obsidian
-4. Go to Settings → Community plugins → Enable "Obsidian AI MCP"
-
-## Configuration
-
-### 1. Configure Obsidian Plugin
-
-1. Open **Obsidian Settings** → **Obsidian AI MCP**
-
+1. In Obsidian Settings, find **Obsidian AI MCP** in the left sidebar
 2. Configure your preferences:
 
    | Setting | Description | Recommended |
@@ -81,9 +58,9 @@ Only needed if you want to install before the plugin is available in Community P
 
 3. Click outside settings to save
 
-### 2. Configure Claude Desktop
+### Configure Claude Desktop (Required)
 
-This is the **most important step** - connecting Claude Desktop to your Obsidian vault.
+This step is **essential** for the plugin to work with Claude Desktop.
 
 #### Locate Claude Desktop Config File
 
@@ -147,7 +124,7 @@ Open `claude_desktop_config.json` and add this configuration:
 }
 ```
 
-### 3. Start the MCP Server
+### Start the MCP Server
 
 **Option A - Auto-start (Recommended):**
 1. Ensure "Enable MCP Server" is toggled ON in plugin settings
@@ -159,14 +136,14 @@ Open `claude_desktop_config.json` and add this configuration:
 2. Type and run: **"Start MCP Server"**
 3. You should see: "MCP Server started successfully"
 
-### 4. Connect Claude Desktop
+### Connect Claude Desktop
 
 1. **Completely quit** Claude Desktop (exit from system tray/menu bar, not just close window)
 2. **Restart** Claude Desktop
 3. Open a new chat
 4. Look for the 🔨 tools icon or "obsidian" in available tools
 
-### 5. Test the Connection
+### Test the Connection
 
 Ask Claude:
 ```
@@ -180,6 +157,10 @@ Please read my note called "README"
 ```
 
 If Claude responds with your vault content, **congratulations! You're all set! 🎉**
+
+### Manual Installation (For Development)
+
+See [DEVELOPMENT.md](DEVELOPMENT.md) for detailed development setup instructions.
 
 ## Usage
 
@@ -357,134 +338,9 @@ If you discover a security vulnerability, please:
 3. Include detailed steps to reproduce
 4. Allow reasonable time for a fix before public disclosure
 
-## Architecture
-
-```
-┌─────────────────┐         WebSocket         ┌──────────────────┐
-│                 │◄───────── Port 3010 ──────►│                  │
-│  Claude Desktop │                            │     Obsidian     │
-│                 │        MCP Protocol        │   MCP Plugin     │
-│  (MCP Client)   │◄──────────────────────────►│  (MCP Server)    │
-└─────────────────┘                            └──────────────────┘
-        │                                               │
-        │         stdio bridge                          │
-        ▼         (mcp-client.js)                      ▼
-┌─────────────────┐                          ┌──────────────────┐
-│  Node Process   │                          │  Vault Service   │
-│  JSON-RPC 2.0   │                          │  File Operations │
-└─────────────────┘                          └──────────────────┘
-                                                       │
-                                                       ▼
-                                              ┌──────────────────┐
-                                              │  Your Vault      │
-                                              │  .md files       │
-                                              └──────────────────┘
-```
-
-### Components
-
-- **MCP Server** (`src/mcp/server.ts`): WebSocket server implementing MCP protocol 2024-11-05
-- **Vault Service** (`src/services/vault-service.ts`): Handles all vault file operations with security checks
-- **Tool Handlers** (`src/mcp/handlers/tools.ts`): Implements MCP tool handlers for each operation
-- **MCP Client Bridge** (`mcp-client.js`): Bridges stdio (Claude Desktop) to WebSocket (Obsidian)
-
 ## Development
 
-### Prerequisites
-
-- **Node.js** v16+
-- **npm** or **yarn**
-- **Obsidian** for testing
-- **TypeScript** 4.7+
-
-### Setting Up Development Environment
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/mikhajeon/obsidian-ai-mcp.git
-   cd obsidian-ai-mcp
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Build the plugin:**
-   ```bash
-   # Development mode (watch for changes)
-   npm run dev
-
-   # Production build
-   npm run build
-   ```
-
-4. **Link to your vault for testing:**
-   ```bash
-   # Create a symbolic link from your vault to the development folder
-   # Windows (PowerShell as Admin)
-   New-Item -ItemType SymbolicLink -Path "C:\path\to\vault\.obsidian\plugins\obsidian-ai-mcp" -Target "C:\path\to\dev\obsidian-ai-mcp"
-
-   # macOS/Linux
-   ln -s /path/to/dev/obsidian-ai-mcp /path/to/vault/.obsidian/plugins/obsidian-ai-mcp
-   ```
-
-5. **Reload Obsidian** to load the plugin
-
-### Version Bumping
-
-```bash
-# Bump version (updates manifest.json, package.json, and versions.json)
-npm version patch   # 0.0.1 → 0.0.2
-npm version minor   # 0.0.1 → 0.1.0
-npm version major   # 0.0.1 → 1.0.0
-```
-
-### Project Structure
-
-```
-obsidian-ai-mcp/
-├── src/
-│   ├── commands/           # Obsidian commands (start/stop/status)
-│   │   └── index.ts
-│   ├── mcp/               # MCP server implementation
-│   │   ├── server.ts      # WebSocket server + MCP protocol
-│   │   └── handlers/
-│   │       └── tools.ts   # Tool handlers (read/write/search/etc)
-│   ├── services/          # Business logic
-│   │   └── vault-service.ts  # Vault file operations
-│   ├── types/             # TypeScript type definitions
-│   │   └── settings.ts    # Plugin settings interface
-│   ├── ui/                # User interface
-│   │   └── settings-tab.ts   # Settings UI
-│   └── main.ts            # Plugin entry point
-├── mcp-client.js          # stdio-to-WebSocket bridge for Claude Desktop
-├── manifest.json          # Obsidian plugin manifest
-├── package.json           # npm package configuration
-├── tsconfig.json          # TypeScript configuration
-├── esbuild.config.mjs     # Build configuration
-└── README.md             # This file
-```
-
-### Contributing
-
-Contributions are welcome! Please:
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Make** your changes
-4. **Test** thoroughly (build and run in Obsidian)
-5. **Commit** with clear messages (`git commit -m 'Add amazing feature'`)
-6. **Push** to your fork (`git push origin feature/amazing-feature`)
-7. **Open** a Pull Request
-
-#### Contribution Guidelines
-
-- Follow existing code style (TypeScript + ESLint)
-- Add comments for complex logic
-- Test your changes in a real vault
-- Update documentation if adding features
-- Be respectful and constructive in discussions
+For development setup, contributing guidelines, and project architecture, see [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## Support
 

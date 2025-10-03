@@ -8,14 +8,28 @@ Before you begin, make sure you have:
 
 - ✅ **Obsidian Desktop** installed (not mobile)
 - ✅ **Claude Desktop** app installed ([Download here](https://claude.ai/download))
-- ✅ **Node.js** version 16 or higher ([Download here](https://nodejs.org/))
-- ✅ **Git** (optional, for cloning) ([Download here](https://git-scm.com/))
+
+**Note:** Node.js and Git are only required for manual installation or development (see Step 1, Option B below).
 
 ## Installation Steps
 
 ### Step 1: Install the Plugin
 
-#### Option A: Clone from GitHub (Recommended)
+#### Option A: From Community Plugins (Recommended)
+
+1. Open **Obsidian Settings**
+2. Go to **Community plugins** → **Browse**
+3. Search for **"Obsidian AI MCP"**
+4. Click **Install**
+5. Once installed, click **Enable**
+
+That's it! Skip to [Step 2](#step-2-configure-the-plugin) below.
+
+#### Option B: Manual Installation (For Development)
+
+**Additional Prerequisites:**
+- **Node.js** v16.0 or higher ([Download here](https://nodejs.org/))
+- **Git** ([Download here](https://git-scm.com/))
 
 1. Open your terminal/command prompt
 
@@ -48,35 +62,21 @@ Before you begin, make sure you have:
    npm run build
    ```
 
-#### Option B: Manual Download
+#### Option C: Manual Download (Alternative)
 
 1. Download the latest release from [GitHub Releases](https://github.com/mikhajeon/obsidian-ai-mcp/releases)
 
-2. Extract the zip file
+2. Extract the files (`main.js`, `manifest.json`, `styles.css`)
 
-3. Copy the `obsidian-ai-mcp` folder to your vault's `.obsidian/plugins/` directory
+3. Create a folder `obsidian-ai-mcp` in your vault's `.obsidian/plugins/` directory
 
-4. Open terminal in the plugin folder and run:
-   ```bash
-   npm install
-   npm run build
-   ```
+4. Copy the extracted files into that folder
 
-### Step 2: Enable the Plugin in Obsidian
+5. Restart Obsidian
 
-1. Open **Obsidian**
+6. Go to **Settings** → **Community plugins** → Enable **Obsidian AI MCP**
 
-2. Go to **Settings** (gear icon)
-
-3. Navigate to **Community plugins**
-
-4. Click **Turn on community plugins** (if not already enabled)
-
-5. Find **Obsidian AI MCP** in the installed plugins list
-
-6. Toggle it **ON**
-
-### Step 3: Configure the Plugin
+### Step 2: Configure the Plugin
 
 1. In Obsidian Settings, find **Obsidian AI MCP** in the left sidebar
 
@@ -92,7 +92,7 @@ Before you begin, make sure you have:
 
 3. Click outside the settings to save
 
-### Step 4: Configure Claude Desktop
+### Step 3: Configure Claude Desktop
 
 This is the most important step - connecting Claude Desktop to your Obsidian vault.
 
@@ -178,7 +178,7 @@ This is the most important step - connecting Claude Desktop to your Obsidian vau
 
 4. Save with `Ctrl+O`, `Enter`, then exit with `Ctrl+X`
 
-### Step 5: Start the MCP Server
+### Step 4: Start the MCP Server
 
 #### Method 1: Auto-start (Recommended)
 
@@ -198,7 +198,7 @@ Just **restart Obsidian** now.
 
 You should see a notice: "MCP Server started successfully"
 
-### Step 6: Connect Claude Desktop
+### Step 5: Connect Claude Desktop
 
 1. **Completely quit** Claude Desktop (not just close the window - quit from system tray/menu bar)
 
@@ -208,7 +208,7 @@ You should see a notice: "MCP Server started successfully"
 
 4. Look for the 🔨 tools icon or mention of "obsidian" in Claude's available tools
 
-### Step 7: Test the Connection
+### Step 6: Test the Connection
 
 Ask Claude something like:
 
