@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-ai-mcp",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "MCP server for Obsidian - Connect your vault to Claude AI with full read/write capabilities",
 	"main": "main.js",
 	"scripts": {
@@ -8,7 +8,13 @@
 		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
 		"version": "node version-bump.mjs && git add manifest.json versions.json"
 	},
-	"keywords": ["obsidian", "mcp", "claude", "ai", "model-context-protocol"],
+	"keywords": [
+		"obsidian",
+		"mcp",
+		"claude",
+		"ai",
+		"model-context-protocol"
+	],
 	"author": "mikhajeon",
 	"license": "MIT",
 	"devDependencies": {
