@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-ai-mcp",
+	"name": "ai-mcp",
 	"version": "1.0.0",
-	"description": "MCP server for Obsidian - Connect your vault to Claude AI with full read/write capabilities",
+	"description": "MCP server that connects your vault to Claude Desktop with full read/write capabilities",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",

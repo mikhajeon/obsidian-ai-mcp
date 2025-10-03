@@ -1,4 +1,4 @@
-# Obsidian AI MCP
+# AI MCP
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/mikhajeon/obsidian-ai-mcp)](https://github.com/mikhajeon/obsidian-ai-mcp/releases)
 [![License](https://img.shields.io/github/license/mikhajeon/obsidian-ai-mcp)](LICENSE)
@@ -7,9 +7,9 @@
 
 ---
 
-**Obsidian AI MCP** enables AI applications like Claude Desktop to securely access and work with your Obsidian vault through the Model Context Protocol (MCP). MCP is an open protocol that standardizes how AI applications can interact with external data sources and tools while maintaining security and user control.[^1]
+**AI MCP** enables AI applications like Claude Desktop to securely access and work with your vault through the Model Context Protocol (MCP). MCP is an open protocol that standardizes how AI applications can interact with external data sources and tools while maintaining security and user control.[^1]
 
-This plugin creates a local WebSocket-based MCP server that runs within Obsidian, acting as a secure bridge between your vault and AI applications like Claude Desktop. This means AI assistants can read your notes, create new content, search your vault, and manage files - but only when you allow it and only through the server's controlled API. The server never gives AI applications direct filesystem access to your vault.[^2]
+This plugin creates a local WebSocket-based MCP server, acting as a secure bridge between your vault and AI applications like Claude Desktop. This means AI assistants can read your notes, create new content, search your vault, and manage files - but only when you allow it and only through the server's controlled API. The server never gives AI applications direct filesystem access to your vault.[^2]
 
 **Privacy Note:** When using Claude Desktop with this plugin, your conversations with Claude are not used to train Anthropic's models by default.[^3]
 
@@ -28,24 +28,22 @@ All features require an MCP-compatible client like Claude Desktop, as this plugi
 
 ## Prerequisites
 
-- **Obsidian** v0.15.0 or higher (Desktop only)
+- v0.15.0 or higher (Desktop only)
 - **Claude Desktop** installed and configured ([Download here](https://claude.ai/download))
-
-**Note:** Node.js is only required for manual installation or development. If installing from Community Plugins, no additional software is needed.
 
 ## Installation
 
 ### From Community Plugins (Recommended)
 
-1. Open **Obsidian Settings**
+1. Open **Settings**
 2. Go to **Community plugins** → **Browse**
-3. Search for **"Obsidian AI MCP"**
+3. Search for **"AI MCP"**
 4. Click **Install**
 5. Once installed, click **Enable**
 
 ### Configure Plugin Settings
 
-1. In Obsidian Settings, find **Obsidian AI MCP** in the left sidebar
+1. In Settings, find **AI MCP** in the left sidebar
 2. Configure your preferences:
 
    | Setting | Description | Recommended |
@@ -130,11 +128,7 @@ Open `claude_desktop_config.json` and add this configuration:
 1. Ensure "Enable MCP Server" is toggled ON in plugin settings
 2. Restart Obsidian
 3. Server starts automatically on launch
-
-**Option B - Manual:**
-1. Press `Ctrl/Cmd + P` to open Command Palette
-2. Type and run: **"Start MCP Server"**
-3. You should see: "MCP Server started successfully"
+4. If it doesn't start for some reason, there is a command to "Start MCP Server"
 
 ### Connect Claude Desktop
 
@@ -153,14 +147,11 @@ Can you list all the notes in my Obsidian vault?
 or
 
 ```
-Please read my note called "README"
+Please read my note called "your note name"
 ```
 
 If Claude responds with your vault content, **congratulations! You're all set! 🎉**
 
-### Manual Installation (For Development)
-
-See [DEVELOPMENT.md](DEVELOPMENT.md) for detailed development setup instructions.
 
 ## Usage
 
