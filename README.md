@@ -86,13 +86,15 @@ Open `claude_desktop_config.json` and add this configuration:
 > - Windows users must use **forward slashes** (`/`) not backslashes (`\`)
 > - Replace `/absolute/path/to/vault` with your actual vault path
 
+> **📝 Note:** Replace `Username` with your actual system username and `MyVault` with your actual vault name in all examples below. 
+
 **Example for Windows:**
 ```json
 {
   "mcpServers": {
     "obsidian": {
       "command": "node",
-      "args": ["C:/Users/John/Documents/MyVault/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js"]
+      "args": ["C:/Users/Username/Documents/MyVault/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js"]
     }
   }
 }
@@ -104,7 +106,7 @@ Open `claude_desktop_config.json` and add this configuration:
   "mcpServers": {
     "obsidian": {
       "command": "node",
-      "args": ["/Users/john/Documents/MyVault/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js"]
+      "args": ["/Users/Username/Documents/MyVault/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js"]
     }
   }
 }
@@ -116,7 +118,7 @@ Open `claude_desktop_config.json` and add this configuration:
   "mcpServers": {
     "obsidian": {
       "command": "node",
-      "args": ["/home/john/Documents/MyVault/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js"]
+      "args": ["/home/Username/Documents/MyVault/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js"]
     }
   }
 }
@@ -235,8 +237,8 @@ If you encounter issues:
 
 2. **Use forward slashes in paths (Windows):**
    ```json
-   ✅ "C:/Users/John/Vault/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js"
-   ❌ "C:\Users\John\Vault\.obsidian\plugins\obsidian-ai-mcp\mcp-client.js"
+   ✅ "C:/Users/Username/Vault/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js"
+   ❌ "C:\Users\Username\Vault\.obsidian\plugins\obsidian-ai-mcp\mcp-client.js"
    ```
 
 3. **Fully restart Claude Desktop:**
