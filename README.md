@@ -43,10 +43,31 @@ All features require Claude Desktop, as this plugin provides the server componen
 4. Click **Install**
 5. Once installed, click **Enable**
 
-### Configure Plugin Settings
+### Setup Claude Desktop Connection
 
-1. In Settings, find **AI MCP** in the left sidebar
-2. Configure your preferences:
+1. **Open Plugin Settings**
+   - In Obsidian Settings, find **AI MCP** in the left sidebar
+
+2. **Generate MCP Client** (One-time setup)
+   - At the top of the settings page, you'll see the "Claude Desktop Setup" section
+   - If you see a warning "⚠️ mcp-client.js not found", click **"Generate MCP Client"**
+   - You should see a success message
+
+3. **Copy Configuration**
+   - The setup section shows your vault's auto-generated configuration
+   - Click **"Copy Configuration"** button
+   - This copies the JSON configuration to your clipboard
+
+4. **Add to Claude Desktop Config**
+   - The setup section shows where to paste (location varies by OS):
+     - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+     - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+     - **Linux**: `~/.config/Claude/claude_desktop_config.json`
+   - Open that file in a text editor
+   - Paste the copied configuration
+   - Save the file
+
+5. **Configure Plugin Permissions**
 
    | Setting | Description | Recommended |
    |---------|-------------|-------------|
@@ -55,76 +76,6 @@ All features require Claude Desktop, as this plugin provides the server componen
    | **Enable Delete Operations** | Allow Claude to delete notes | ⚠️ Enable with caution |
 
    > **Note:** Read operations (including search and metadata access) are always enabled as they are core to vault interaction.
-
-3. Click outside settings to save
-
-### Configure Claude Desktop (Required)
-
-This step is **essential** for the plugin to work with Claude Desktop.
-
-#### Locate Claude Desktop Config File
-
-- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
-- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Linux**: `~/.config/Claude/claude_desktop_config.json`
-
-#### Add MCP Server Configuration
-
-Open `claude_desktop_config.json` and add this configuration:
-
-```json
-{
-  "mcpServers": {
-    "obsidian": {
-      "command": "node",
-      "args": ["/absolute/path/to/vault/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js"]
-    }
-  }
-}
-```
-
-> **⚠️ Critical:**
-> - Use **absolute paths** (not relative)
-> - Windows users must use **forward slashes** (`/`) not backslashes (`\`)
-> - Replace `/absolute/path/to/vault` with your actual vault path
-
-> **📝 Note:** Replace `Username` with your actual system username and `MyVault` with your actual vault name in all examples below. 
-
-**Example for Windows:**
-```json
-{
-  "mcpServers": {
-    "obsidian": {
-      "command": "node",
-      "args": ["C:/Users/Username/Documents/MyVault/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js"]
-    }
-  }
-}
-```
-
-**Example for macOS:**
-```json
-{
-  "mcpServers": {
-    "obsidian": {
-      "command": "node",
-      "args": ["/Users/Username/Documents/MyVault/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js"]
-    }
-  }
-}
-```
-
-**Example for Linux:**
-```json
-{
-  "mcpServers": {
-    "obsidian": {
-      "command": "node",
-      "args": ["/home/Username/Documents/MyVault/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js"]
-    }
-  }
-}
-```
 
 ### Start the MCP Server
 
