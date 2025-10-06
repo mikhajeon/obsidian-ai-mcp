@@ -34,12 +34,10 @@ export class MCPServer {
 
 	async start(): Promise<void> {
 		if (this.wss) {
-			console.log('MCP Server already running');
 			return;
 		}
 
 		try {
-			console.log('Creating WebSocketServer on port', this.settings.serverPort);
 			this.wss = new WebSocketServer({ port: this.settings.serverPort });
 
 			this.wss.on('error', (error: Error) => {
@@ -48,25 +46,18 @@ export class MCPServer {
 			});
 
 			this.wss.on('connection', (ws: WebSocket) => {
-				console.log('Client connected to MCP server');
 				this.clients.add(ws);
 
 				ws.on('message', async (data: Buffer) => {
 					try {
 						const requestStr = data.toString();
-						console.log('Raw request received:', requestStr);
 						const request = JSON.parse(requestStr) as MCPRequest;
-						console.log('Parsed request:', request.method, 'id:', request.id);
 						const response = await this.handleRequest(request);
 
 						// Only send response if not a notification
 						if (response !== null) {
 							const responseStr = JSON.stringify(response);
-							console.log('Sending response:', responseStr);
 							ws.send(responseStr);
-							console.log('Response sent successfully');
-						} else {
-							console.log('No response needed (notification)');
 						}
 					} catch (error) {
 						console.error('Error handling request:', error);
@@ -84,7 +75,6 @@ export class MCPServer {
 				});
 
 				ws.on('close', () => {
-					console.log('Client disconnected from MCP server');
 					this.clients.delete(ws);
 				});
 
@@ -93,8 +83,6 @@ export class MCPServer {
 					this.clients.delete(ws);
 				});
 			});
-
-			console.log(`MCP Server started successfully on port ${this.settings.serverPort}`);
 		} catch (error) {
 			console.error('Failed to create WebSocketServer:', error);
 			this.wss = null;
@@ -104,7 +92,6 @@ export class MCPServer {
 
 	async stop(): Promise<void> {
 		if (!this.wss) {
-			console.log('MCP Server is not running');
 			return;
 		}
 
@@ -117,7 +104,6 @@ export class MCPServer {
 		// Close server
 		await new Promise<void>((resolve) => {
 			this.wss?.close(() => {
-				console.log('MCP Server stopped');
 				resolve();
 			});
 		});
@@ -129,7 +115,6 @@ export class MCPServer {
 		try {
 			// Handle notifications (no response needed)
 			if (request.method.startsWith('notifications/') || request.method === 'initialized') {
-				console.log('Received notification:', request.method);
 				return null; // Don't send response for notifications
 			}
 

@@ -26,8 +26,6 @@ export default class MCPPlugin extends Plugin {
 		if (this.settings.mcpServerEnabled) {
 			await this.startMCPServer();
 		}
-
-		console.log('Obsidian MCP Plugin loaded');
 	}
 
 	async onunload() {
@@ -36,7 +34,6 @@ export default class MCPPlugin extends Plugin {
 			await this.mcpServer.stop();
 			this.mcpServer = null;
 		}
-		console.log('Obsidian MCP Plugin unloaded');
 	}
 
 	async loadSettings() {
@@ -49,16 +46,12 @@ export default class MCPPlugin extends Plugin {
 
 	async startMCPServer() {
 		if (this.mcpServer) {
-			console.log('MCP Server already running');
 			return;
 		}
 
 		try {
-			console.log('Creating MCP Server instance...');
 			this.mcpServer = new MCPServer(this.vaultService, this.settings);
-			console.log('Starting MCP Server on port', this.settings.serverPort);
 			await this.mcpServer.start();
-			console.log('MCP Server started successfully on port', this.settings.serverPort);
 		} catch (error) {
 			console.error('Failed to start MCP Server:', error);
 			console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
@@ -69,14 +62,12 @@ export default class MCPPlugin extends Plugin {
 
 	async stopMCPServer() {
 		if (!this.mcpServer) {
-			console.log('MCP Server is not running');
 			return;
 		}
 
 		try {
 			await this.mcpServer.stop();
 			this.mcpServer = null;
-			console.log('MCP Server stopped successfully');
 		} catch (error) {
 			console.error('Failed to stop MCP Server:', error);
 		}
