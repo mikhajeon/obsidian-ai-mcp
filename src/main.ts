@@ -185,10 +185,12 @@ connect();
 	}
 
 	async checkMCPClientExists(): Promise<boolean> {
-		const clientPath = '.obsidian/plugins/obsidian-ai-mcp/mcp-client.js';
+		const basePath = (this.app.vault.adapter as any).basePath;
+		const clientPath = `${basePath}/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js`;
 
 		try {
-			await this.app.vault.adapter.stat(clientPath);
+			const fs = require('fs').promises;
+			await fs.access(clientPath);
 			return true;
 		} catch {
 			return false;

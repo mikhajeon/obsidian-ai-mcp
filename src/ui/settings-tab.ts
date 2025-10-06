@@ -97,7 +97,7 @@ export class MCPSettingTab extends PluginSettingTab {
 		new Setting(buttonsContainer)
 			.setName('')
 			.setDesc('')
-			.addButton((button) =>
+			.addButton((button) => {
 				button
 					.setButtonText('Generate MCP Client')
 					.onClick(async () => {
@@ -110,8 +110,13 @@ export class MCPSettingTab extends PluginSettingTab {
 							console.error('Error generating mcp-client.js:', error);
 							new Notice('Failed to generate mcp-client.js. Check console for details.');
 						}
-					})
-			)
+					});
+
+				// Highlight if client doesn't exist
+				if (!clientExists) {
+					button.setCta();
+				}
+			})
 			.addButton((button) =>
 				button
 					.setButtonText('Copy Configuration')
