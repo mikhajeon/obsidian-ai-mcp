@@ -14,92 +14,17 @@ export class MCPSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-		// Header
-		containerEl.createEl('h2', { text: 'Obsidian MCP Server Settings' });
-
-		// Server Configuration Section
-		containerEl.createEl('h3', { text: 'Server Configuration' });
+		const header = containerEl.createEl('h2', { text: 'AI MCP Settings' });
+		header.style.fontSize = '1.5em';
 
 		new Setting(containerEl)
-			.setName('Enable MCP Server')
-			.setDesc('Enable the MCP server to allow Claude to access your vault')
+			.setName('Auto-start MCP Server')
+			.setDesc('Automatically start the MCP server when Obsidian launches')
 			.addToggle((toggle) =>
 				toggle
 					.setValue(this.plugin.settings.mcpServerEnabled)
 					.onChange(async (value) => {
 						this.plugin.settings.mcpServerEnabled = value;
-						await this.plugin.saveSettings();
-					})
-			);
-
-		new Setting(containerEl)
-			.setName('Server Port')
-			.setDesc('Port for the MCP server (WebSocket mode only)')
-			.addText((text) =>
-				text
-					.setPlaceholder('3000')
-					.setValue(String(this.plugin.settings.serverPort))
-					.onChange(async (value) => {
-						const port = parseInt(value);
-						if (!isNaN(port) && port > 0 && port < 65536) {
-							this.plugin.settings.serverPort = port;
-							await this.plugin.saveSettings();
-						}
-					})
-			);
-
-		new Setting(containerEl)
-			.setName('Transport Type')
-			.setDesc('Communication method (stdio for Claude Desktop)')
-			.addDropdown((dropdown) =>
-				dropdown
-					.addOption('stdio', 'STDIO (Claude Desktop)')
-					.addOption('websocket', 'WebSocket')
-					.setValue(this.plugin.settings.transportType)
-					.onChange(async (value) => {
-						this.plugin.settings.transportType = value as 'websocket' | 'stdio';
-						await this.plugin.saveSettings();
-					})
-			);
-
-		// Security & Permissions Section
-		containerEl.createEl('h3', { text: 'Security & Permissions' });
-
-		new Setting(containerEl)
-			.setName('Require Permission for Reads')
-			.setDesc('Ask for permission before allowing Claude to read notes')
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.requirePermissionForReads)
-					.onChange(async (value) => {
-						this.plugin.settings.requirePermissionForReads = value;
-						await this.plugin.saveSettings();
-					})
-			);
-
-		new Setting(containerEl)
-			.setName('Require Permission for Writes')
-			.setDesc('Ask for permission before allowing Claude to modify notes')
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.requirePermissionForWrites)
-					.onChange(async (value) => {
-						this.plugin.settings.requirePermissionForWrites = value;
-						await this.plugin.saveSettings();
-					})
-			);
-
-		// Features Section
-		containerEl.createEl('h3', { text: 'Features' });
-
-		new Setting(containerEl)
-			.setName('Enable Search')
-			.setDesc('Allow Claude to search your vault')
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.enableSearch)
-					.onChange(async (value) => {
-						this.plugin.settings.enableSearch = value;
 						await this.plugin.saveSettings();
 					})
 			);
@@ -128,55 +53,49 @@ export class MCPSettingTab extends PluginSettingTab {
 					})
 			);
 
-		new Setting(containerEl)
-			.setName('Enable Metadata Access')
-			.setDesc('Allow Claude to access note metadata and frontmatter')
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.enableMetadata)
-					.onChange(async (value) => {
-						this.plugin.settings.enableMetadata = value;
-						await this.plugin.saveSettings();
-					})
-			);
+		// Available Commands Section (subtle guide)
+		const commandsSection = containerEl.createDiv();
+		commandsSection.style.marginTop = '10px';
+		commandsSection.style.paddingTop = '15px';
+		commandsSection.style.borderTop = '1px solid var(--background-modifier-border)';
+		commandsSection.style.opacity = '0.6';
+		commandsSection.style.fontSize = '0.9em';
 
-		// Advanced Section
-		containerEl.createEl('h3', { text: 'Advanced' });
+		const commandsHeader = commandsSection.createEl('div');
+		commandsHeader.style.marginBottom = '8px';
+		commandsHeader.style.fontWeight = '500';
+		commandsHeader.style.fontSize = '0.95em';
+		commandsHeader.setText('Available Commands');
 
-		new Setting(containerEl)
-			.setName('Log Level')
-			.setDesc('Logging verbosity level')
-			.addDropdown((dropdown) =>
-				dropdown
-					.addOption('debug', 'Debug')
-					.addOption('info', 'Info')
-					.addOption('warn', 'Warning')
-					.addOption('error', 'Error')
-					.setValue(this.plugin.settings.logLevel)
-					.onChange(async (value) => {
-						this.plugin.settings.logLevel = value as
-							| 'debug'
-							| 'info'
-							| 'warn'
-							| 'error';
-						await this.plugin.saveSettings();
-					})
-			);
+		const commandsDesc = commandsSection.createDiv();
+		commandsDesc.style.marginBottom = '8px';
+		commandsDesc.style.fontSize = '0.85em';
+		commandsDesc.setText('Access via Command Palette (Ctrl/Cmd + P):');
 
-		new Setting(containerEl)
-			.setName('Max Concurrent Requests')
-			.setDesc('Maximum number of simultaneous requests')
-			.addText((text) =>
-				text
-					.setPlaceholder('5')
-					.setValue(String(this.plugin.settings.maxConcurrentRequests))
-					.onChange(async (value) => {
-						const max = parseInt(value);
-						if (!isNaN(max) && max > 0) {
-							this.plugin.settings.maxConcurrentRequests = max;
-							await this.plugin.saveSettings();
-						}
-					})
-			);
+		const commandsList = commandsSection.createEl('ul');
+		commandsList.style.marginLeft = '20px';
+		commandsList.style.fontSize = '0.85em';
+		commandsList.style.listStyleType = 'none';
+
+		const commands = [
+			{
+				name: 'Start MCP Server',
+				desc: 'Manually start the server',
+			},
+			{
+				name: 'Stop MCP Server',
+				desc: 'Stop the running server',
+			},
+			{
+				name: 'MCP Server Status',
+				desc: 'Check server status',
+			},
+		];
+
+		commands.forEach((cmd) => {
+			const li = commandsList.createEl('li');
+			li.style.marginBottom = '4px';
+			li.setText(`• ${cmd.name} - ${cmd.desc}`);
+		});
 	}
 }

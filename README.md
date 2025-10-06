@@ -31,6 +31,8 @@ All features require an MCP-compatible client like Claude Desktop, as this plugi
 - v0.15.0 or higher (Desktop only)
 - **Claude Desktop** installed and configured ([Download here](https://claude.ai/download))
 
+> **⚠️ Platform Note:** This plugin has been primarily tested on **Windows**. While it should work on macOS and Linux, some features may require additional testing or configuration on those platforms.
+
 ## Installation
 
 ### From Community Plugins (Recommended)
@@ -48,11 +50,11 @@ All features require an MCP-compatible client like Claude Desktop, as this plugi
 
    | Setting | Description | Recommended |
    |---------|-------------|-------------|
-   | **Enable MCP Server** | Auto-start server when Obsidian loads | ✅ Enable for convenience |
-   | **Server Port** | WebSocket port (default: 3010) | Leave as 3010 unless in use |
-   | **Enable Search** | Allow Claude to search vault | ✅ Enable |
-   | **Enable Write** | Allow Claude to create/modify notes | ✅ Enable |
-   | **Enable Delete** | Allow Claude to delete notes | ⚠️ Enable with caution |
+   | **Auto-start MCP Server** | Automatically start server when Obsidian launches | ✅ Enable for convenience |
+   | **Enable Write Operations** | Allow Claude to create/update notes | ✅ Enable |
+   | **Enable Delete Operations** | Allow Claude to delete notes | ⚠️ Enable with caution |
+
+   > **Note:** Read operations (including search and metadata access) are always enabled as they are core to vault interaction.
 
 3. Click outside settings to save
 
@@ -127,10 +129,10 @@ Open `claude_desktop_config.json` and add this configuration:
 ### Start the MCP Server
 
 **Option A - Auto-start (Recommended):**
-1. Ensure "Enable MCP Server" is toggled ON in plugin settings
+1. Ensure "Auto-start MCP Server" is toggled ON in plugin settings
 2. Restart Obsidian
 3. Server starts automatically on launch
-4. If it doesn't start for some reason, there is a command to "Start MCP Server"
+4. If it doesn't start for some reason, use Command Palette → "Start MCP Server"
 
 ### Connect Claude Desktop
 
@@ -215,12 +217,7 @@ If you encounter issues:
    npx kill-port 3010
    ```
 
-3. **Or change the port:**
-   - Go to Obsidian Settings → Obsidian AI MCP → Server Port
-   - Change to a different port (e.g., 3011)
-   - Update `claude_desktop_config.json` if you're using stdio transport
-
-4. **Check Obsidian console for errors:**
+3. **Check Obsidian console for errors:**
    - View → Toggle Developer Tools → Console tab
    - Look for red error messages
 
@@ -266,8 +263,8 @@ If you encounter issues:
 **Solutions:**
 
 1. **Enable required permissions:**
-   - Obsidian Settings → Obsidian AI MCP
-   - Toggle ON: Enable Search, Enable Write (if needed)
+   - Obsidian Settings → AI MCP
+   - Toggle ON: Enable Write Operations, Enable Delete Operations (if needed)
 
 2. **Check file paths in Claude requests:**
    - Paths should be relative to vault root
@@ -304,8 +301,7 @@ If you encounter issues:
 
 Control exactly what AI assistants can do:
 
-- **Read**: Always enabled (required for basic functionality)
-- **Search**: Toggle to control vault-wide search capability
+- **Read**: Always enabled (includes search and metadata access)
 - **Write**: Toggle to control note creation and modification
 - **Delete**: Toggle to control note deletion (disabled by default)
 

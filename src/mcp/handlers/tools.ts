@@ -52,10 +52,6 @@ export class ToolHandler {
 	}
 
 	private async readNote(args: ReadNoteArgs): Promise<ToolResult> {
-		if (this.settings.requirePermissionForReads) {
-			// Permission check would go here
-		}
-
 		if (!this.vaultService.validatePath(args.path)) {
 			return {
 				content: null,
@@ -71,10 +67,6 @@ export class ToolHandler {
 	private async writeNote(args: WriteNoteArgs): Promise<ToolResult> {
 		if (!this.settings.enableWrite) {
 			throw new PermissionDeniedError('write operations');
-		}
-
-		if (this.settings.requirePermissionForWrites) {
-			// Permission check would go here
 		}
 
 		if (!this.vaultService.validatePath(args.path)) {
@@ -101,10 +93,6 @@ export class ToolHandler {
 			throw new PermissionDeniedError('update operations');
 		}
 
-		if (this.settings.requirePermissionForWrites) {
-			// Permission check would go here
-		}
-
 		if (!this.vaultService.validatePath(args.path)) {
 			return {
 				content: null,
@@ -123,10 +111,6 @@ export class ToolHandler {
 	private async deleteNote(args: DeleteNoteArgs): Promise<ToolResult> {
 		if (!this.settings.enableDelete) {
 			throw new PermissionDeniedError('delete operations');
-		}
-
-		if (this.settings.requirePermissionForWrites) {
-			// Permission check would go here
 		}
 
 		if (!this.vaultService.validatePath(args.path)) {
@@ -150,10 +134,6 @@ export class ToolHandler {
 	}
 
 	private async searchVault(args: SearchVaultArgs): Promise<ToolResult> {
-		if (!this.settings.enableSearch) {
-			throw new PermissionDeniedError('search operations');
-		}
-
 		const results = await this.vaultService.searchFiles(
 			args.query,
 			args.limit || 50
