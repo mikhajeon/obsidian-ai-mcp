@@ -1,4 +1,4 @@
-import { App, PluginSettingTab, Setting } from 'obsidian';
+import { App, PluginSettingTab, Setting, Notice, Platform } from 'obsidian';
 import MCPPlugin from '../main';
 
 export class MCPSettingTab extends PluginSettingTab {
@@ -11,11 +11,116 @@ export class MCPSettingTab extends PluginSettingTab {
 
 	display(): void {
 		const { containerEl } = this;
+		this.displayAsync();
+	}
+
+	async displayAsync(): Promise<void> {
+		const { containerEl } = this;
 
 		containerEl.empty();
 
 		const header = containerEl.createEl('h2', { text: 'AI MCP Settings' });
 		header.style.fontSize = '1.5em';
+
+		// Setup Helper Section
+		const setupSection = containerEl.createDiv();
+		setupSection.style.marginBottom = '20px';
+		setupSection.style.padding = '15px';
+		setupSection.style.backgroundColor = 'var(--background-secondary)';
+		setupSection.style.borderRadius = '6px';
+
+		const setupHeader = setupSection.createEl('h3');
+		setupHeader.style.marginTop = '0';
+		setupHeader.style.marginBottom = '10px';
+		setupHeader.setText('Claude Desktop Setup');
+
+		const setupDesc = setupSection.createDiv();
+		setupDesc.style.marginBottom = '10px';
+		setupDesc.style.fontSize = '0.9em';
+		setupDesc.style.opacity = '0.8';
+
+		// Get config file path based on platform
+		let configPath = '';
+		if (Platform.isWin) {
+			configPath = '%APPDATA%\\Claude\\claude_desktop_config.json';
+		} else if (Platform.isMacOS) {
+			configPath = '~/Library/Application Support/Claude/claude_desktop_config.json';
+		} else {
+			configPath = '~/.config/Claude/claude_desktop_config.json';
+		}
+
+		setupDesc.setText(`Copy this configuration to: ${configPath}`);
+
+		// Generate vault path
+		const vaultPath = (this.app.vault.adapter as any).basePath;
+		const clientPath = `${vaultPath}/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js`;
+		// Convert backslashes to forward slashes for JSON
+		const normalizedPath = clientPath.replace(/\\/g, '/');
+
+		const configJson = `{
+  "mcpServers": {
+    "obsidian": {
+      "command": "node",
+      "args": ["${normalizedPath}"]
+    }
+  }
+}`;
+
+		// Check if mcp-client.js exists
+		const clientExists = await this.plugin.checkMCPClientExists();
+
+		if (!clientExists) {
+			const warningDiv = setupSection.createDiv();
+			warningDiv.style.marginBottom = '10px';
+			warningDiv.style.padding = '10px';
+			warningDiv.style.backgroundColor = 'var(--background-modifier-error)';
+			warningDiv.style.borderRadius = '4px';
+			warningDiv.style.fontSize = '0.9em';
+			warningDiv.setText('⚠️ mcp-client.js not found. Click "Generate MCP Client" below first.');
+		}
+
+		// Code block with config
+		const codeBlock = setupSection.createEl('pre');
+		codeBlock.style.backgroundColor = 'var(--background-primary)';
+		codeBlock.style.padding = '10px';
+		codeBlock.style.borderRadius = '4px';
+		codeBlock.style.fontSize = '0.85em';
+		codeBlock.style.overflow = 'auto';
+		codeBlock.style.marginBottom = '10px';
+		codeBlock.setText(configJson);
+
+		// Buttons
+		const buttonsContainer = setupSection.createDiv();
+		buttonsContainer.style.display = 'flex';
+		buttonsContainer.style.gap = '10px';
+
+		new Setting(buttonsContainer)
+			.setName('')
+			.setDesc('')
+			.addButton((button) =>
+				button
+					.setButtonText('Generate MCP Client')
+					.onClick(async () => {
+						try {
+							await this.plugin.generateMCPClient();
+							new Notice('mcp-client.js generated successfully!');
+							// Refresh settings display
+							this.display();
+						} catch (error) {
+							console.error('Error generating mcp-client.js:', error);
+							new Notice('Failed to generate mcp-client.js. Check console for details.');
+						}
+					})
+			)
+			.addButton((button) =>
+				button
+					.setButtonText('Copy Configuration')
+					.setDisabled(!clientExists)
+					.onClick(async () => {
+						await navigator.clipboard.writeText(configJson);
+						new Notice('Configuration copied to clipboard!');
+					})
+			);
 
 		new Setting(containerEl)
 			.setName('Auto-start MCP Server')

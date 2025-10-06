@@ -7,24 +7,24 @@
 
 ---
 
-**AI MCP** enables AI applications like Claude Desktop to securely access and work with your vault through the Model Context Protocol (MCP). MCP is an open protocol that standardizes how AI applications can interact with external data sources and tools while maintaining security and user control.[^1]
+**AI MCP** enables Claude Desktop to securely access and work with your vault through the Model Context Protocol (MCP). MCP is an open protocol that standardizes how applications can interact with external data sources and tools while maintaining security and user control.[^1]
 
-This plugin creates a local WebSocket-based MCP server, acting as a secure bridge between your vault and AI applications like Claude Desktop. This means AI assistants can read your notes, create new content, search your vault, and manage files - but only when you allow it and only through the server's controlled API. The server never gives AI applications direct filesystem access to your vault.[^2]
+This plugin creates a local WebSocket-based MCP server, acting as a secure bridge between your vault and Claude Desktop. This means Claude can read your notes, create new content, search your vault, and manage files - but only when you allow it and only through the server's controlled API. The server never gives Claude direct filesystem access to your vault.[^2]
 
 **Privacy Note:** When using Claude Desktop with this plugin, your conversations with Claude are not used to train Anthropic's models by default.[^3]
 
 ## Features
 
-When connected to an MCP client like Claude Desktop, this plugin enables:
+When connected to Claude Desktop, this plugin enables:
 
 - **📖 Vault Access**: Read and reference your notes while maintaining your vault's security[^4]
-- **✍️ Content Creation**: Create and update notes through AI interactions
+- **✍️ Content Creation**: Create and update notes through Claude
 - **🗑️ File Management**: Delete notes with configurable permissions
 - **🔍 Semantic Search**: Search your vault based on content and context
 - **📋 List Operations**: Browse and discover all notes in your vault
-- **⚙️ Configurable Permissions**: Control exactly what operations AI can perform
+- **⚙️ Configurable Permissions**: Control exactly what operations Claude can perform
 
-All features require an MCP-compatible client like Claude Desktop, as this plugin provides the server component that enables these integrations. The plugin does not modify Obsidian's functionality directly - instead, it creates a secure bridge that allows AI applications to work with your vault in powerful ways.
+All features require Claude Desktop, as this plugin provides the server component that enables Claude to work with your vault. The plugin does not modify Obsidian's functionality directly - instead, it creates a secure bridge that allows Claude to work with your vault in powerful ways.
 
 ## Prerequisites
 
@@ -299,7 +299,7 @@ If you encounter issues:
 
 ### Configurable Permissions
 
-Control exactly what AI assistants can do:
+Control exactly what Claude can do:
 
 - **Read**: Always enabled (includes search and metadata access)
 - **Write**: Toggle to control note creation and modification
@@ -311,6 +311,7 @@ Control exactly what AI assistants can do:
 - WebSocket connection is local (127.0.0.1)
 - No data is sent to external servers by this plugin
 - Only Claude Desktop (with your explicit configuration) can connect
+- Your vault data stays on your computer; only your prompts and Claude's responses are sent to Anthropic's servers
 
 ### Desktop-Only Plugin
 
