@@ -19,20 +19,19 @@ export class MCPSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-		const header = containerEl.createEl('h2', { text: 'AI MCP Settings' });
-		header.style.fontSize = '1.5em';
-
-		// Setup Helper Section
+		// Claude Desktop setup section (first, without heading)
 		const setupSection = containerEl.createDiv();
 		setupSection.style.marginBottom = '20px';
 		setupSection.style.padding = '15px';
 		setupSection.style.backgroundColor = 'var(--background-secondary)';
 		setupSection.style.borderRadius = '6px';
 
-		const setupHeader = setupSection.createEl('h3');
+		const setupHeader = setupSection.createEl('div');
 		setupHeader.style.marginTop = '0';
 		setupHeader.style.marginBottom = '10px';
-		setupHeader.setText('Claude Desktop Setup');
+		setupHeader.style.fontWeight = '600';
+		setupHeader.style.fontSize = '1.1em';
+		setupHeader.setText('Claude Desktop setup');
 
 		const setupDesc = setupSection.createDiv();
 		setupDesc.style.marginBottom = '10px';
@@ -127,8 +126,9 @@ export class MCPSettingTab extends PluginSettingTab {
 					})
 			);
 
+		// General settings (no heading, at top)
 		new Setting(containerEl)
-			.setName('Auto-start MCP Server')
+			.setName('Auto-start MCP server')
 			.setDesc('Automatically start the MCP server when Obsidian launches')
 			.addToggle((toggle) =>
 				toggle
@@ -139,8 +139,13 @@ export class MCPSettingTab extends PluginSettingTab {
 					})
 			);
 
+		// Permissions section
 		new Setting(containerEl)
-			.setName('Enable Write Operations')
+			.setName('Permissions')
+			.setHeading();
+
+		new Setting(containerEl)
+			.setName('Enable write operations')
 			.setDesc('Allow Claude to create and update notes')
 			.addToggle((toggle) =>
 				toggle
@@ -152,7 +157,7 @@ export class MCPSettingTab extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName('Enable Delete Operations')
+			.setName('Enable delete operations')
 			.setDesc('Allow Claude to delete notes (use with caution)')
 			.addToggle((toggle) =>
 				toggle
@@ -163,49 +168,33 @@ export class MCPSettingTab extends PluginSettingTab {
 					})
 			);
 
-		// Available Commands Section (subtle guide)
-		const commandsSection = containerEl.createDiv();
-		commandsSection.style.marginTop = '10px';
-		commandsSection.style.paddingTop = '15px';
-		commandsSection.style.borderTop = '1px solid var(--background-modifier-border)';
-		commandsSection.style.opacity = '0.6';
-		commandsSection.style.fontSize = '0.9em';
+		// Available commands section
+		new Setting(containerEl)
+			.setName('Available commands')
+			.setHeading();
 
-		const commandsHeader = commandsSection.createEl('div');
-		commandsHeader.style.marginBottom = '8px';
-		commandsHeader.style.fontWeight = '500';
-		commandsHeader.style.fontSize = '0.95em';
-		commandsHeader.setText('Available Commands');
+		const commandsDesc = containerEl.createDiv();
+		commandsDesc.style.marginBottom = '10px';
+		commandsDesc.style.fontSize = '0.9em';
+		commandsDesc.style.opacity = '0.8';
+		commandsDesc.setText('Access these commands via Command Palette (Ctrl/Cmd + P):');
 
-		const commandsDesc = commandsSection.createDiv();
-		commandsDesc.style.marginBottom = '8px';
-		commandsDesc.style.fontSize = '0.85em';
-		commandsDesc.setText('Access via Command Palette (Ctrl/Cmd + P):');
-
-		const commandsList = commandsSection.createEl('ul');
+		const commandsList = containerEl.createEl('ul');
 		commandsList.style.marginLeft = '20px';
-		commandsList.style.fontSize = '0.85em';
-		commandsList.style.listStyleType = 'none';
+		commandsList.style.fontSize = '0.9em';
+		commandsList.style.opacity = '0.8';
+		commandsList.style.listStyleType = 'disc';
 
 		const commands = [
-			{
-				name: 'Start MCP Server',
-				desc: 'Manually start the server',
-			},
-			{
-				name: 'Stop MCP Server',
-				desc: 'Stop the running server',
-			},
-			{
-				name: 'MCP Server Status',
-				desc: 'Check server status',
-			},
+			'Start MCP server - Manually start the server',
+			'Stop MCP server - Stop the running server',
+			'MCP server status - Check server status',
 		];
 
 		commands.forEach((cmd) => {
 			const li = commandsList.createEl('li');
 			li.style.marginBottom = '4px';
-			li.setText(`• ${cmd.name} - ${cmd.desc}`);
+			li.setText(cmd);
 		});
 	}
 }
