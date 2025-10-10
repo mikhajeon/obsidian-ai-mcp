@@ -3,7 +3,7 @@
 	"name": "AI MCP",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "MCP server that connects your vault to Claude Desktop with full read/write capabilities",
+	"description": "Connect your vault to Claude Desktop using Model Context Protocol (MCP). Read, write, search, and manage notes through Claude with configurable permissions.",
 	"author": "Mikha Jeon",
 	"authorUrl": "https://github.com/mikhajeon",
 	"isDesktopOnly": true
