@@ -1,4 +1,4 @@
-import { App, TFile, TFolder, TAbstractFile } from 'obsidian';
+import { App, TFile, TFolder, TAbstractFile, normalizePath } from 'obsidian';
 import { FileNotFoundError, InvalidPathError, FileAlreadyExistsError } from '../utils/errors';
 
 export interface SearchResult {
@@ -35,7 +35,7 @@ export class VaultService {
 		}
 
 		if (existingFile && existingFile instanceof TFile) {
-			await this.app.vault.modify(existingFile, content);
+			await this.app.vault.process(existingFile, () => content);
 		} else {
 			await this.app.vault.create(path, content);
 		}
@@ -46,7 +46,7 @@ export class VaultService {
 		if (!file || !(file instanceof TFile)) {
 			throw new FileNotFoundError(path);
 		}
-		await this.app.vault.modify(file, content);
+		await this.app.vault.process(file, () => content);
 	}
 
 	async deleteFile(path: string): Promise<void> {
@@ -126,12 +126,15 @@ export class VaultService {
 	}
 
 	validatePath(path: string): boolean {
+		// Normalize path for cross-platform compatibility
+		const normalized = normalizePath(path);
+
 		// Prevent directory traversal
-		if (path.includes('..')) {
+		if (normalized.includes('..')) {
 			return false;
 		}
 		// Ensure it's a valid markdown file
-		if (!path.endsWith('.md')) {
+		if (!normalized.endsWith('.md')) {
 			return false;
 		}
 		return true;

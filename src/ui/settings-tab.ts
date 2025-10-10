@@ -20,23 +20,12 @@ export class MCPSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		// Claude Desktop setup section (first, without heading)
-		const setupSection = containerEl.createDiv();
-		setupSection.style.marginBottom = '20px';
-		setupSection.style.padding = '15px';
-		setupSection.style.backgroundColor = 'var(--background-secondary)';
-		setupSection.style.borderRadius = '6px';
+		const setupSection = containerEl.createDiv({ cls: 'ai-mcp-setup-section' });
 
-		const setupHeader = setupSection.createEl('div');
-		setupHeader.style.marginTop = '0';
-		setupHeader.style.marginBottom = '10px';
-		setupHeader.style.fontWeight = '600';
-		setupHeader.style.fontSize = '1.1em';
+		const setupHeader = setupSection.createEl('div', { cls: 'ai-mcp-setup-header' });
 		setupHeader.setText('Claude Desktop setup');
 
-		const setupDesc = setupSection.createDiv();
-		setupDesc.style.marginBottom = '10px';
-		setupDesc.style.fontSize = '0.9em';
-		setupDesc.style.opacity = '0.8';
+		const setupDesc = setupSection.createDiv({ cls: 'ai-mcp-setup-desc' });
 
 		// Get config file path based on platform
 		let configPath = '';
@@ -69,29 +58,16 @@ export class MCPSettingTab extends PluginSettingTab {
 		const clientExists = await this.plugin.checkMCPClientExists();
 
 		if (!clientExists) {
-			const warningDiv = setupSection.createDiv();
-			warningDiv.style.marginBottom = '10px';
-			warningDiv.style.padding = '10px';
-			warningDiv.style.backgroundColor = 'var(--background-modifier-error)';
-			warningDiv.style.borderRadius = '4px';
-			warningDiv.style.fontSize = '0.9em';
+			const warningDiv = setupSection.createDiv({ cls: 'ai-mcp-warning' });
 			warningDiv.setText('⚠️ generated_mcp_client.js not found. Click "Generate MCP Client" below first.');
 		}
 
 		// Code block with config
-		const codeBlock = setupSection.createEl('pre');
-		codeBlock.style.backgroundColor = 'var(--background-primary)';
-		codeBlock.style.padding = '10px';
-		codeBlock.style.borderRadius = '4px';
-		codeBlock.style.fontSize = '0.85em';
-		codeBlock.style.overflow = 'auto';
-		codeBlock.style.marginBottom = '10px';
+		const codeBlock = setupSection.createEl('pre', { cls: 'ai-mcp-code-block' });
 		codeBlock.setText(configJson);
 
 		// Buttons
-		const buttonsContainer = setupSection.createDiv();
-		buttonsContainer.style.display = 'flex';
-		buttonsContainer.style.gap = '10px';
+		const buttonsContainer = setupSection.createDiv({ cls: 'ai-mcp-button-container' });
 
 		new Setting(buttonsContainer)
 			.setName('')
@@ -173,17 +149,10 @@ export class MCPSettingTab extends PluginSettingTab {
 			.setName('Available commands')
 			.setHeading();
 
-		const commandsDesc = containerEl.createDiv();
-		commandsDesc.style.marginBottom = '10px';
-		commandsDesc.style.fontSize = '0.9em';
-		commandsDesc.style.opacity = '0.8';
+		const commandsDesc = containerEl.createDiv({ cls: 'ai-mcp-commands-desc' });
 		commandsDesc.setText('Access these commands via Command Palette (Ctrl/Cmd + P):');
 
-		const commandsList = containerEl.createEl('ul');
-		commandsList.style.marginLeft = '20px';
-		commandsList.style.fontSize = '0.9em';
-		commandsList.style.opacity = '0.8';
-		commandsList.style.listStyleType = 'disc';
+		const commandsList = containerEl.createEl('ul', { cls: 'ai-mcp-commands-list' });
 
 		const commands = [
 			'Start MCP server - Manually start the server',
@@ -193,7 +162,6 @@ export class MCPSettingTab extends PluginSettingTab {
 
 		commands.forEach((cmd) => {
 			const li = commandsList.createEl('li');
-			li.style.marginBottom = '4px';
 			li.setText(cmd);
 		});
 	}
