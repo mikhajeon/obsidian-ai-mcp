@@ -17,12 +17,12 @@ This plugin creates a local WebSocket-based MCP server, acting as a secure bridg
 
 When connected to Claude Desktop, this plugin enables:
 
-- **📖 Vault Access**: Read and reference your notes while maintaining your vault's security[^4]
-- **✍️ Content Creation**: Create and update notes through Claude
-- **🗑️ File Management**: Delete notes with configurable permissions
-- **🔍 Semantic Search**: Search your vault based on content and context
-- **📋 List Operations**: Browse and discover all notes in your vault
-- **⚙️ Configurable Permissions**: Control exactly what operations Claude can perform
+- **Vault Access**: Read and reference your notes while maintaining your vault's security[^4]
+- **Content Creation**: Create and update notes through Claude
+- **File Management**: Delete notes with configurable permissions
+- **Semantic Search**: Search your vault based on content and context
+- **List Operations**: Browse and discover all notes in your vault
+- **Configurable Permissions**: Control exactly what operations Claude can perform
 
 All features require Claude Desktop, as this plugin provides the server component that enables Claude to work with your vault. The plugin does not modify Obsidian's functionality directly - instead, it creates a secure bridge that allows Claude to work with your vault in powerful ways.
 
@@ -31,7 +31,7 @@ All features require Claude Desktop, as this plugin provides the server componen
 - v0.15.0 or higher (Desktop only)
 - **Claude Desktop** installed and configured ([Download here](https://claude.ai/download))
 
-> **⚠️ Platform Note:** This plugin has been primarily tested on **Windows**. While it should work on macOS and Linux, some features may require additional testing or configuration on those platforms.
+> **Platform Note:** This plugin has been primarily tested on **Windows**. While it should work on macOS and Linux, some features may require additional testing or configuration on those platforms.
 
 ## Requirements & Disclosures
 
@@ -101,9 +101,9 @@ This plugin requires certain services and permissions to function. In accordance
 
    | Setting | Description | Recommended |
    |---------|-------------|-------------|
-   | **Auto-start MCP Server** | Automatically start server when Obsidian launches | ✅ Enable for convenience |
-   | **Enable Write Operations** | Allow Claude to create/update notes | ✅ Enable |
-   | **Enable Delete Operations** | Allow Claude to delete notes | ⚠️ Enable with caution |
+   | **Auto-start MCP Server** | Automatically start server when Obsidian launches | Enable for convenience |
+   | **Enable Write Operations** | Allow Claude to create/update notes | Enable |
+   | **Enable Delete Operations** | Allow Claude to delete notes | Enable with caution |
 
    > **Note:** Read operations (including search and metadata access) are always enabled as they are core to vault interaction.
 
@@ -120,7 +120,7 @@ This plugin requires certain services and permissions to function. In accordance
 1. **Completely quit** Claude Desktop (exit from system tray/menu bar, not just close window)
 2. **Restart** Claude Desktop
 3. Open a new chat
-4. Look for the 🔨 tools icon or "obsidian" in available tools
+4. Look for the tools icon or "obsidian" in available tools
 
 ### Test the Connection
 
@@ -135,7 +135,7 @@ or
 Please read my note called "your note name"
 ```
 
-If Claude responds with your vault content, **congratulations! You're all set! 🎉**
+If Claude responds with your vault content, you're all set.
 
 
 ## Usage
@@ -178,7 +178,7 @@ Access these through Command Palette (`Ctrl/Cmd + P`):
 
 If you encounter issues:
 
-### ❌ MCP Server Won't Start
+### MCP Server Won't Start
 
 **Issue:** Error message when starting server or server status shows "Stopped"
 
@@ -202,7 +202,7 @@ If you encounter issues:
    - View → Toggle Developer Tools → Console tab
    - Look for red error messages
 
-### ❌ Claude Desktop Doesn't See Obsidian Connection
+### Claude Desktop Doesn't See Obsidian Connection
 
 **Issue:** Claude doesn't show Obsidian tools or connection
 
@@ -215,8 +215,8 @@ If you encounter issues:
 
 2. **Use forward slashes in paths (Windows):**
    ```json
-   ✅ "C:/Users/Username/Vault/.obsidian/plugins/obsidian-ai-mcp/generated_mcp_client.js"
-   ❌ "C:\Users\Username\Vault\.obsidian\plugins\obsidian-ai-mcp\generated_mcp_client.js"
+   Good: "C:/Users/Username/Vault/.obsidian/plugins/obsidian-ai-mcp/generated_mcp_client.js"
+   Bad:  "C:\Users\Username\Vault\.obsidian\plugins\obsidian-ai-mcp\generated_mcp_client.js"
    ```
 
 3. **Fully restart Claude Desktop:**
@@ -237,7 +237,7 @@ If you encounter issues:
    - Should show v16.0 or higher
    - If error, reinstall Node.js and ensure it's in PATH
 
-### ❌ Tools Not Working
+### Tools Not Working
 
 **Issue:** Claude sees Obsidian connection but tools fail or error
 
@@ -260,7 +260,7 @@ If you encounter issues:
    - Try reading a known note through Claude
    - If that fails, check file permissions on vault folder
 
-### 💡 Common Issues
+### Common Issues
 
 | Symptom | Likely Cause | Solution |
 |---------|--------------|----------|
@@ -315,9 +315,9 @@ For development setup, contributing guidelines, and project architecture, see [D
 
 ## Support
 
-- 💬 **Questions?** [Open a Discussion](https://github.com/mikhajeon/obsidian-ai-mcp/discussions)
-- 🐛 **Bug Reports** [Open an Issue](https://github.com/mikhajeon/obsidian-ai-mcp/issues)
-- 💡 **Feature Requests** [Open an Issue](https://github.com/mikhajeon/obsidian-ai-mcp/issues)
+- **Questions** [Open a Discussion](https://github.com/mikhajeon/obsidian-ai-mcp/discussions)
+- **Bug Reports** [Open an Issue](https://github.com/mikhajeon/obsidian-ai-mcp/issues)
+- **Feature Requests** [Open an Issue](https://github.com/mikhajeon/obsidian-ai-mcp/issues)
 
 When reporting issues, please include:
 
