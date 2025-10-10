@@ -3,188 +3,135 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/mikhajeon/obsidian-ai-mcp)](https://github.com/mikhajeon/obsidian-ai-mcp/releases)
 [![License](https://img.shields.io/github/license/mikhajeon/obsidian-ai-mcp)](LICENSE)
 
-[Features](#features) | [Installation](#installation) | [Usage](#usage) | [Troubleshooting](#troubleshooting) | [Security](#security) | [Development](#development) | [Support](#support)
+[Installation](#installation) | [What You Can Do](#what-you-can-do) | [Usage](#usage) | [Troubleshooting](#troubleshooting) | [Requirements](#requirements--disclosures) | [Support](#support)
 
 ---
 
-**AI MCP** enables Claude Desktop to securely access and work with your vault through the Model Context Protocol (MCP). MCP is an open protocol that standardizes how applications can interact with external data sources and tools while maintaining security and user control.[^1]
+**AI MCP** enables Claude Desktop to securely access and work with your Obsidian vault through the Model Context Protocol (MCP). Talk to Claude about your notes, have it create new content, search your vault, and manage files using natural language.
 
-This plugin creates a local WebSocket-based MCP server, acting as a secure bridge between your vault and Claude Desktop. This means Claude can read your notes, create new content, search your vault, and manage files - but only when you allow it and only through the server's controlled API. The server never gives Claude direct filesystem access to your vault.[^2]
+**Privacy Note:** Your vault data stays on your computer. Only your prompts and Claude's responses are sent to Anthropic's servers, and by default aren't used for model training.[^1]
 
-**Privacy Note:** When using Claude Desktop with this plugin, your conversations with Claude are not used to train Anthropic's models by default.[^3]
+## What You Can Do
 
-## Features
+Once installed, you can ask Claude to:
 
-When connected to Claude Desktop, this plugin enables:
+- "Read my note called 'Project Ideas' and suggest three new features"
+- "Create a new meeting note for today with an agenda template"
+- "Search my vault for all notes about machine learning and summarize the key concepts"
+- "Update my Daily Note to add these three tasks"
+- "List all notes in my Projects folder"
+- "Find notes I haven't updated in 30 days"
 
-- **Vault Access**: Read and reference your notes while maintaining your vault's security[^4]
-- **Content Creation**: Create and update notes through Claude
-- **File Management**: Delete notes with configurable permissions
-- **Semantic Search**: Search your vault based on content and context
-- **List Operations**: Browse and discover all notes in your vault
-- **Configurable Permissions**: Control exactly what operations Claude can perform
-
-All features require Claude Desktop, as this plugin provides the server component that enables Claude to work with your vault. The plugin does not modify Obsidian's functionality directly - instead, it creates a secure bridge that allows Claude to work with your vault in powerful ways.
-
-## Prerequisites
-
-- v0.15.0 or higher (Desktop only)
-- **Claude Desktop** installed and configured ([Download here](https://claude.ai/download))
-
-> **Platform Note:** This plugin has been primarily tested on **Windows**. While it should work on macOS and Linux, some features may require additional testing or configuration on those platforms.
-
-## Requirements & Disclosures
-
-This plugin requires certain services and permissions to function. In accordance with Obsidian's developer policies, the following disclosures are provided:
-
-### Account Requirement
-
-**Claude Desktop account required:** This plugin requires a Claude Desktop account to function. You must be signed in to Claude Desktop to use the MCP integration features.
-
-- Sign up at [claude.ai](https://claude.ai)
-- Download Claude Desktop from [claude.ai/download](https://claude.ai/download)
-
-### Network Use
-
-**Local network communication:** This plugin runs a local WebSocket server on `localhost:3010` to enable communication between Obsidian and Claude Desktop. All communication happens locally on your computer.
-
-**Cloud service usage:** When you interact with Claude through this plugin, your vault content is sent to Anthropic's servers for processing. This is necessary for Claude to read, analyze, and respond to your notes.
-
-- Your conversations and vault data sent to Claude are processed according to Anthropic's privacy policy
-- By default, Anthropic does not use your conversations to train their models
-- Review Anthropic's privacy policy: [anthropic.com/legal/privacy](https://www.anthropic.com/legal/privacy)
-
-### File Access Outside Vault
-
-**Plugin directory access:** This plugin generates a file called `generated_mcp_client.js` in the `.obsidian/plugins/obsidian-ai-mcp/` directory. This file is required for Claude Desktop to communicate with your vault through the MCP protocol.
-
-- The generated file bridges communication between Claude Desktop and Obsidian
-- This file is created automatically when you click "Generate MCP Client" in settings
-- No other files outside your vault are accessed or modified
+Claude works directly with your notes using natural language - no need to learn commands or syntax.
 
 ## Installation
 
-### From Community Plugins (Recommended)
+### Quick Install (Recommended)
 
-1. Open **Settings**
+1. Open Obsidian **Settings**
 2. Go to **Community plugins** → **Browse**
 3. Search for **"AI MCP"**
-4. Click **Install**
-5. Once installed, click **Enable**
+4. Click **Install**, then **Enable**
 
 ### Setup Claude Desktop Connection
 
-1. **Open Plugin Settings in Obsidian**
-   - Go to Settings → AI MCP
+After installing the plugin:
 
-2. **Generate MCP Client** (One-time setup)
-   - Click **"Generate MCP Client"** button at the top
-   - You should see "MCP client generated successfully!" notification
+1. **Generate MCP Client**
+   - Open Obsidian Settings → AI MCP
+   - Click **"Generate MCP Client"** button
+   - You'll see a success notification
 
-3. **Copy Configuration to Clipboard**
+2. **Copy Configuration**
    - Click **"Copy Configuration"** button
-   - The vault-specific config JSON is now in your clipboard
+   - The config is now in your clipboard
 
-4. **Open Claude Desktop Config**
-   - Open **Claude Desktop** application
-   - Go to **Settings** (gear icon in bottom left)
-   - Navigate to **Developer** section in the left sidebar
-   - Under "Local MCP servers", click **"Edit Config"** button
-   - This opens `claude_desktop_config.json` in your text editor
+3. **Add to Claude Desktop**
+   - Open Claude Desktop
+   - Go to Settings (gear icon) → Developer
+   - Click **"Edit Config"** under "Local MCP servers"
+   - Paste the configuration and save
 
-5. **Paste and Save**
-   - Paste the configuration you copied from step 3
-   - Save the file
-   - Completely quit and restart Claude Desktop
+4. **Restart Claude Desktop**
+   - Completely quit Claude Desktop (exit from system tray/menu bar)
+   - Reopen Claude Desktop
 
-6. **Configure Plugin Permissions**
+5. **Test It Works**
+   - Open a new Claude chat
+   - Ask: "Can you list all the notes in my Obsidian vault?"
+   - If Claude responds with your notes, you're all set
 
-   | Setting | Description | Recommended |
-   |---------|-------------|-------------|
-   | **Auto-start MCP Server** | Automatically start server when Obsidian launches | Enable for convenience |
-   | **Enable Write Operations** | Allow Claude to create/update notes | Enable |
-   | **Enable Delete Operations** | Allow Claude to delete notes | Enable with caution |
+### Quick Settings
 
-   > **Note:** Read operations (including search and metadata access) are always enabled as they are core to vault interaction.
+In Obsidian Settings → AI MCP, configure:
 
-### Start the MCP Server
-
-**Option A - Auto-start (Recommended):**
-1. Ensure "Auto-start MCP Server" is toggled ON in plugin settings
-2. Restart Obsidian
-3. Server starts automatically on launch
-4. If it doesn't start for some reason, use Command Palette → "Start MCP Server"
-
-### Connect Claude Desktop
-
-1. **Completely quit** Claude Desktop (exit from system tray/menu bar, not just close window)
-2. **Restart** Claude Desktop
-3. Open a new chat
-4. Look for the tools icon or "obsidian" in available tools
-
-### Test the Connection
-
-Ask Claude:
-```
-Can you list all the notes in my Obsidian vault?
-```
-
-or
-
-```
-Please read my note called "your note name"
-```
-
-If Claude responds with your vault content, you're all set.
-
+| Setting | Recommended |
+|---------|-------------|
+| Auto-start MCP server | Enable for convenience |
+| Enable write operations | Enable to let Claude create/edit notes |
+| Enable delete operations | Enable with caution |
 
 ## Usage
 
-Once connected, Claude Desktop can interact with your vault using natural language.
+Talk to Claude naturally about your vault. Here are some examples:
 
-### Example Commands
+### Reading and Analysis
+- "Read my project roadmap and identify any missing milestones"
+- "What are the main themes across my daily notes this week?"
+- "Summarize my meeting notes from January"
 
-- "Read the note called 'Project Ideas'"
-- "Create a new note called 'Meeting Notes' with today's agenda"
-- "Search my vault for notes about 'machine learning'"
-- "Update my Daily Note to add a new task: review pull requests"
-- "List all notes in my Projects folder"
-- "Delete the note 'Scratch Pad'"
+### Content Creation
+- "Create a weekly review template in my Templates folder"
+- "Draft a blog post outline about [topic] based on my research notes"
+- "Add a TODO section to my current daily note"
 
-### Available MCP Tools
+### Organization
+- "List all notes tagged with #project"
+- "Find notes that mention both 'Python' and 'data science'"
+- "Show me notes I created this month"
 
-Claude has access to these tools:
+### Available Tools
 
-| Tool | Description | Parameters | Permission Required |
-|------|-------------|------------|---------------------|
-| `read_note` | Read content of a note | `path`: Note path | Read (always enabled) |
-| `write_note` | Create a new note | `path`: Note path<br>`content`: Note content | Write |
-| `update_note` | Update existing note | `path`: Note path<br>`content`: New content | Write |
-| `delete_note` | Delete a note | `path`: Note path | Delete |
-| `list_notes` | List all notes in vault | None | Read (always enabled) |
-| `search_vault` | Search vault content | `query`: Search term | Search |
+Claude has access to these operations:
+
+| Tool | What It Does | Permission |
+|------|--------------|------------|
+| `read_note` | Read any note in your vault | Always enabled |
+| `write_note` | Create new notes | Requires write permission |
+| `update_note` | Edit existing notes | Requires write permission |
+| `delete_note` | Delete notes | Requires delete permission |
+| `list_notes` | Browse all vault notes | Always enabled |
+| `search_vault` | Search note content | Always enabled |
 
 ### Plugin Commands
 
-Access these through Command Palette (`Ctrl/Cmd + P`):
+Access via Command Palette (`Ctrl/Cmd + P`):
 
-| Command | Description |
-|---------|-------------|
-| `Start MCP Server` | Manually start the MCP server |
-| `Stop MCP Server` | Stop the running MCP server |
-| `MCP Server Status` | Check if server is running |
+- **Start MCP Server** - Manually start the server
+- **Stop MCP Server** - Stop the running server
+- **MCP Server Status** - Check if server is running
 
 ## Troubleshooting
 
-If you encounter issues:
+### Claude doesn't see my vault
 
-### MCP Server Won't Start
+1. **Verify the MCP server is running**
+   - Command Palette → "MCP Server Status"
+   - Should say "Running"
 
-**Issue:** Error message when starting server or server status shows "Stopped"
+2. **Check Claude Desktop config**
+   - Settings → Developer → "Edit Config"
+   - Verify path to `generated_mcp_client.js` is correct
+   - Use forward slashes: `C:/Users/...` not `C:\Users\...`
 
-**Solutions:**
+3. **Fully restart Claude Desktop**
+   - Quit completely (system tray/menu bar)
+   - Wait 5 seconds
+   - Reopen
 
-1. **Check if port 3010 is already in use:**
+### MCP server won't start
+
+1. **Port 3010 might be in use**
    ```bash
    # Windows
    netstat -ano | findstr :3010
@@ -193,125 +140,108 @@ If you encounter issues:
    lsof -i :3010
    ```
 
-2. **Kill the process using the port:**
+2. **Kill the process if needed**
    ```bash
    npx kill-port 3010
    ```
 
-3. **Check Obsidian console for errors:**
-   - View → Toggle Developer Tools → Console tab
+3. **Check for errors**
+   - View → Toggle Developer Tools → Console
    - Look for red error messages
 
-### Claude Desktop Doesn't See Obsidian Connection
+### Tools not working
 
-**Issue:** Claude doesn't show Obsidian tools or connection
-
-**Solutions:**
-
-1. **Verify config file path is correct:**
-   - Open `claude_desktop_config.json`
-   - Confirm the path to `generated_mcp_client.js` is absolute and correct
-   - Test the path exists: `ls /path/to/generated_mcp_client.js` (should not error)
-
-2. **Use forward slashes in paths (Windows):**
-   ```json
-   Good: "C:/Users/Username/Vault/.obsidian/plugins/obsidian-ai-mcp/generated_mcp_client.js"
-   Bad:  "C:\Users\Username\Vault\.obsidian\plugins\obsidian-ai-mcp\generated_mcp_client.js"
-   ```
-
-3. **Fully restart Claude Desktop:**
-   - **Windows**: Right-click system tray icon → Quit
-   - **macOS**: Claude menu → Quit Claude
-   - **Linux**: Close window and ensure process is killed
-   - Wait 5 seconds, then reopen
-
-4. **Verify MCP server is running:**
-   - In Obsidian: Command Palette → "MCP Server Status"
-   - Should say "Running"
-   - If not, run "Start MCP Server"
-
-5. **Test Node.js is available:**
-   ```bash
-   node --version
-   ```
-   - Should show v16.0 or higher
-   - If error, reinstall Node.js and ensure it's in PATH
-
-### Tools Not Working
-
-**Issue:** Claude sees Obsidian connection but tools fail or error
-
-**Solutions:**
-
-1. **Enable required permissions:**
+1. **Enable permissions**
    - Obsidian Settings → AI MCP
-   - Toggle ON: Enable Write Operations, Enable Delete Operations (if needed)
+   - Toggle on: Enable Write Operations, Enable Delete Operations
 
-2. **Check file paths in Claude requests:**
+2. **Check file paths**
    - Paths should be relative to vault root
    - Use forward slashes: `folder/note.md`
    - Don't include `.obsidian` in paths
 
-3. **View detailed error logs:**
-   - Obsidian: View → Toggle Developer Tools → Console
-   - Look for errors when Claude tries to use tools
-
-4. **Verify vault service is working:**
-   - Try reading a known note through Claude
-   - If that fails, check file permissions on vault folder
-
 ### Common Issues
 
-| Symptom | Likely Cause | Solution |
-|---------|--------------|----------|
-| "Connection refused" | MCP server not running | Start server in Obsidian |
-| "ECONNRESET" | Port already in use | Change port or kill process |
-| "Path not found" | Wrong path in config | Fix `claude_desktop_config.json` |
-| Claude shows no tools | Config not loaded | Fully restart Claude Desktop |
-| "Permission denied" | Permissions disabled | Enable in plugin settings |
+| Problem | Solution |
+|---------|----------|
+| "Connection refused" | Start MCP server in Obsidian |
+| "Port already in use" | Kill process on port 3010 |
+| "Path not found" | Fix path in Claude Desktop config |
+| Claude shows no tools | Fully restart Claude Desktop |
+| "Permission denied" | Enable write/delete in plugin settings |
+
+## Requirements & Disclosures
+
+This plugin requires:
+
+### Claude Desktop Account
+
+You need a Claude Desktop account to use this plugin.
+- Sign up: [claude.ai](https://claude.ai)
+- Download: [claude.ai/download](https://claude.ai/download)
+
+### Network Usage
+
+**Local:** Plugin runs a WebSocket server on `localhost:3010` for local communication between Obsidian and Claude Desktop.
+
+**Cloud:** When you interact with Claude, your vault content is sent to Anthropic's servers for AI processing. This is how Claude can read and understand your notes.
+- Data is processed per [Anthropic's privacy policy](https://www.anthropic.com/legal/privacy)
+- Conversations aren't used for training by default
+
+### Technical Requirements
+
+- Obsidian v0.15.0 or higher (Desktop only)
+- Node.js v16.0 or higher
+- Claude Desktop installed
+
+### File Access
+
+Plugin generates `generated_mcp_client.js` in `.obsidian/plugins/obsidian-ai-mcp/` directory. This file bridges communication between Claude Desktop and Obsidian. No other files outside your vault are accessed.
+
+> **Platform Note:** Primarily tested on Windows. Should work on macOS and Linux but may need additional configuration.
+
+## Features
+
+Technical capabilities:
+
+- **Vault Access**: Read and reference notes while maintaining vault security[^2]
+- **Content Creation**: Create and update notes through Claude
+- **File Management**: Delete notes with configurable permissions
+- **Semantic Search**: Search vault based on content and context
+- **List Operations**: Browse and discover all notes
+- **Configurable Permissions**: Control exactly what Claude can do
+
+The plugin creates a local MCP server that acts as a secure bridge between your vault and Claude Desktop.[^3] All communication uses the JSON-RPC 2.0 protocol.
 
 ## Security
 
 ### Path Validation
-
-- All file operations validate paths to prevent directory traversal attacks
+- All file operations validate paths to prevent directory traversal
 - Paths are normalized and checked against vault root
 - Attempts to access files outside vault are blocked
 
-### Configurable Permissions
+### Permissions
+- **Read**: Always enabled (core functionality)
+- **Write**: Toggle to control note creation/modification
+- **Delete**: Toggle to control deletion (disabled by default)
 
-Control exactly what Claude can do:
-
-- **Read**: Always enabled (includes search and metadata access)
-- **Write**: Toggle to control note creation and modification
-- **Delete**: Toggle to control note deletion (disabled by default)
-
-### Local-Only Communication
-
+### Local Communication
 - MCP server runs locally on your machine
-- WebSocket connection is local (127.0.0.1)
-- No data is sent to external servers by this plugin
-- Only Claude Desktop (with your explicit configuration) can connect
-- Your vault data stays on your computer; only your prompts and Claude's responses are sent to Anthropic's servers
+- WebSocket connection is local only (127.0.0.1)
+- Only Claude Desktop (with your config) can connect
+- Desktop-only (not mobile) for full control
 
-### Desktop-Only Plugin
+### Report Security Issues
 
-- Plugin only works on desktop Obsidian (not mobile)
-- Requires local Node.js installation
-- Ensures full control over your vault environment
-
-### Reporting Security Issues
-
-If you discover a security vulnerability, please:
-
+If you find a security vulnerability:
 1. **Do NOT** open a public GitHub issue
-2. Email the maintainer: [Create a private security advisory](https://github.com/mikhajeon/obsidian-ai-mcp/security/advisories/new)
-3. Include detailed steps to reproduce
-4. Allow reasonable time for a fix before public disclosure
+2. [Create a private security advisory](https://github.com/mikhajeon/obsidian-ai-mcp/security/advisories/new)
+3. Include steps to reproduce
+4. Allow time for a fix before public disclosure
 
 ## Development
 
-For development setup, contributing guidelines, and project architecture, see [DEVELOPMENT.md](DEVELOPMENT.md).
+For development setup, see [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## Support
 
@@ -319,29 +249,17 @@ For development setup, contributing guidelines, and project architecture, see [D
 - **Bug Reports** [Open an Issue](https://github.com/mikhajeon/obsidian-ai-mcp/issues)
 - **Feature Requests** [Open an Issue](https://github.com/mikhajeon/obsidian-ai-mcp/issues)
 
-When reporting issues, please include:
-
+When reporting issues, include:
 - Operating System and version
 - Obsidian version
 - Node.js version (`node --version`)
 - Plugin version
 - Steps to reproduce
-- Error messages from Obsidian Developer Tools Console
+- Console errors (View → Toggle Developer Tools)
 
 ## Changelog
 
-See [GitHub Releases](https://github.com/mikhajeon/obsidian-ai-mcp/releases) for detailed changelog information.
-
-### Version History
-
-#### 0.0.1 (2025-10-03)
-- Initial beta release
-- Full CRUD operations for notes (read, write, update, delete)
-- WebSocket-based MCP server on configurable port
-- Vault search and list functionality
-- Configurable permissions system
-- Auto-start option
-- Commands for server management
+See [GitHub Releases](https://github.com/mikhajeon/obsidian-ai-mcp/releases) for version history.
 
 ## License
 
@@ -352,17 +270,14 @@ Copyright (c) 2025 mikhajeon
 ## Acknowledgments
 
 - Built with [Model Context Protocol SDK](https://github.com/modelcontextprotocol/sdk)
-- Inspired by the need for seamless AI-vault integration
-- Thanks to the Obsidian and Anthropic teams for making this possible
+- Thanks to the Obsidian and Anthropic teams
 
 ---
 
 ## Footnotes
 
-[^1]: For more information about the Model Context Protocol, see [MCP Introduction](https://modelcontextprotocol.io/introduction)
+[^1]: For information about data privacy, see [Claude AI's data usage policy](https://www.anthropic.com/legal/privacy)
 
-[^2]: The MCP server implements the protocol specification version 2024-11-05. All communication follows the JSON-RPC 2.0 standard.
+[^2]: The plugin uses Obsidian's Vault API to ensure all file operations respect vault settings and constraints
 
-[^3]: For information about Claude's data privacy and security, see [Claude AI's data usage policy](https://www.anthropic.com/legal/privacy)
-
-[^4]: The plugin uses Obsidian's Vault API to ensure all file operations respect vault settings and constraints
+[^3]: The MCP server implements protocol specification version 2024-11-05. For more about MCP, see [MCP Introduction](https://modelcontextprotocol.io/introduction)
