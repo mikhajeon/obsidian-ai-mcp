@@ -33,6 +33,35 @@ All features require Claude Desktop, as this plugin provides the server componen
 
 > **⚠️ Platform Note:** This plugin has been primarily tested on **Windows**. While it should work on macOS and Linux, some features may require additional testing or configuration on those platforms.
 
+## Requirements & Disclosures
+
+This plugin requires certain services and permissions to function. In accordance with Obsidian's developer policies, the following disclosures are provided:
+
+### Account Requirement
+
+**Claude Desktop account required:** This plugin requires a Claude Desktop account to function. You must be signed in to Claude Desktop to use the MCP integration features.
+
+- Sign up at [claude.ai](https://claude.ai)
+- Download Claude Desktop from [claude.ai/download](https://claude.ai/download)
+
+### Network Use
+
+**Local network communication:** This plugin runs a local WebSocket server on `localhost:3010` to enable communication between Obsidian and Claude Desktop. All communication happens locally on your computer.
+
+**Cloud service usage:** When you interact with Claude through this plugin, your vault content is sent to Anthropic's servers for processing. This is necessary for Claude to read, analyze, and respond to your notes.
+
+- Your conversations and vault data sent to Claude are processed according to Anthropic's privacy policy
+- By default, Anthropic does not use your conversations to train their models
+- Review Anthropic's privacy policy: [anthropic.com/legal/privacy](https://www.anthropic.com/legal/privacy)
+
+### File Access Outside Vault
+
+**Plugin directory access:** This plugin generates a file called `generated_mcp_client.js` in the `.obsidian/plugins/obsidian-ai-mcp/` directory. This file is required for Claude Desktop to communicate with your vault through the MCP protocol.
+
+- The generated file bridges communication between Claude Desktop and Obsidian
+- This file is created automatically when you click "Generate MCP Client" in settings
+- No other files outside your vault are accessed or modified
+
 ## Installation
 
 ### From Community Plugins (Recommended)
