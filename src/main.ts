@@ -174,19 +174,19 @@ process.on('SIGTERM', () => {
 connect();
 `;
 
-		const clientPath = '.obsidian/plugins/obsidian-ai-mcp/mcp-client.js';
+		const clientPath = '.obsidian/plugins/obsidian-ai-mcp/generated_mcp_client.js';
 
 		try {
 			await this.app.vault.adapter.write(clientPath, clientCode);
 		} catch (error) {
-			console.error('Failed to generate mcp-client.js:', error);
+			console.error('Failed to generate generated_mcp_client.js:', error);
 			throw error;
 		}
 	}
 
 	async checkMCPClientExists(): Promise<boolean> {
 		const basePath = (this.app.vault.adapter as any).basePath;
-		const clientPath = `${basePath}/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js`;
+		const clientPath = `${basePath}/.obsidian/plugins/obsidian-ai-mcp/generated_mcp_client.js`;
 
 		try {
 			const fs = require('fs').promises;

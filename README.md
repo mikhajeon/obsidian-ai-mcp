@@ -45,29 +45,30 @@ All features require Claude Desktop, as this plugin provides the server componen
 
 ### Setup Claude Desktop Connection
 
-1. **Open Plugin Settings**
-   - In Obsidian Settings, find **AI MCP** in the left sidebar
+1. **Open Plugin Settings in Obsidian**
+   - Go to Settings → AI MCP
 
 2. **Generate MCP Client** (One-time setup)
-   - At the top of the settings page, you'll see the "Claude Desktop Setup" section
-   - If you see a warning "⚠️ mcp-client.js not found", click **"Generate MCP Client"**
-   - You should see a success message
+   - Click **"Generate MCP Client"** button at the top
+   - You should see "MCP client generated successfully!" notification
 
-3. **Copy Configuration**
-   - The setup section shows your vault's auto-generated configuration
+3. **Copy Configuration to Clipboard**
    - Click **"Copy Configuration"** button
-   - This copies the JSON configuration to your clipboard
+   - The vault-specific config JSON is now in your clipboard
 
-4. **Add to Claude Desktop Config**
-   - The setup section shows where to paste (location varies by OS):
-     - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
-     - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-     - **Linux**: `~/.config/Claude/claude_desktop_config.json`
-   - Open that file in a text editor
-   - Paste the copied configuration
+4. **Open Claude Desktop Config**
+   - Open **Claude Desktop** application
+   - Go to **Settings** (gear icon in bottom left)
+   - Navigate to **Developer** section in the left sidebar
+   - Under "Local MCP servers", click **"Edit Config"** button
+   - This opens `claude_desktop_config.json` in your text editor
+
+5. **Paste and Save**
+   - Paste the configuration you copied from step 3
    - Save the file
+   - Completely quit and restart Claude Desktop
 
-5. **Configure Plugin Permissions**
+6. **Configure Plugin Permissions**
 
    | Setting | Description | Recommended |
    |---------|-------------|-------------|
@@ -180,13 +181,13 @@ If you encounter issues:
 
 1. **Verify config file path is correct:**
    - Open `claude_desktop_config.json`
-   - Confirm the path to `mcp-client.js` is absolute and correct
-   - Test the path exists: `ls /path/to/mcp-client.js` (should not error)
+   - Confirm the path to `generated_mcp_client.js` is absolute and correct
+   - Test the path exists: `ls /path/to/generated_mcp_client.js` (should not error)
 
 2. **Use forward slashes in paths (Windows):**
    ```json
-   ✅ "C:/Users/Username/Vault/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js"
-   ❌ "C:\Users\Username\Vault\.obsidian\plugins\obsidian-ai-mcp\mcp-client.js"
+   ✅ "C:/Users/Username/Vault/.obsidian/plugins/obsidian-ai-mcp/generated_mcp_client.js"
+   ❌ "C:\Users\Username\Vault\.obsidian\plugins\obsidian-ai-mcp\generated_mcp_client.js"
    ```
 
 3. **Fully restart Claude Desktop:**

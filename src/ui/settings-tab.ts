@@ -53,7 +53,7 @@ export class MCPSettingTab extends PluginSettingTab {
 
 		// Generate vault path
 		const vaultPath = (this.app.vault.adapter as any).basePath;
-		const clientPath = `${vaultPath}/.obsidian/plugins/obsidian-ai-mcp/mcp-client.js`;
+		const clientPath = `${vaultPath}/.obsidian/plugins/obsidian-ai-mcp/generated_mcp_client.js`;
 		// Convert backslashes to forward slashes for JSON
 		const normalizedPath = clientPath.replace(/\\/g, '/');
 
@@ -76,7 +76,7 @@ export class MCPSettingTab extends PluginSettingTab {
 			warningDiv.style.backgroundColor = 'var(--background-modifier-error)';
 			warningDiv.style.borderRadius = '4px';
 			warningDiv.style.fontSize = '0.9em';
-			warningDiv.setText('⚠️ mcp-client.js not found. Click "Generate MCP Client" below first.');
+			warningDiv.setText('⚠️ generated_mcp_client.js not found. Click "Generate MCP Client" below first.');
 		}
 
 		// Code block with config
@@ -103,12 +103,12 @@ export class MCPSettingTab extends PluginSettingTab {
 					.onClick(async () => {
 						try {
 							await this.plugin.generateMCPClient();
-							new Notice('mcp-client.js generated successfully!');
+							new Notice('MCP client generated successfully!');
 							// Refresh settings display
 							this.display();
 						} catch (error) {
-							console.error('Error generating mcp-client.js:', error);
-							new Notice('Failed to generate mcp-client.js. Check console for details.');
+							console.error('Error generating generated_mcp_client.js:', error);
+							new Notice('Failed to generate MCP client. Check console for details.');
 						}
 					});
 

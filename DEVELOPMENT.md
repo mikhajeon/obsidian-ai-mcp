@@ -79,7 +79,7 @@ obsidian-ai-mcp/
 │   ├── ui/                # User interface
 │   │   └── settings-tab.ts   # Settings UI
 │   └── main.ts            # Plugin entry point
-├── mcp-client.js          # stdio-to-WebSocket bridge for Claude Desktop
+├── generated_mcp_client.js # stdio-to-WebSocket bridge for Claude Desktop
 ├── manifest.json          # Obsidian plugin manifest
 ├── package.json           # npm package configuration
 ├── tsconfig.json          # TypeScript configuration
@@ -116,7 +116,7 @@ obsidian-ai-mcp/
 - **MCP Server** (`src/mcp/server.ts`): WebSocket server implementing MCP protocol 2024-11-05
 - **Vault Service** (`src/services/vault-service.ts`): Handles all vault file operations with security checks
 - **Tool Handlers** (`src/mcp/handlers/tools.ts`): Implements MCP tool handlers for each operation
-- **MCP Client Bridge** (`mcp-client.js`): Bridges stdio (Claude Desktop) to WebSocket (Obsidian)
+- **MCP Client Bridge** (`generated_mcp_client.js`): Bridges stdio (Claude Desktop) to WebSocket (Obsidian)
 
 ## Contributing
 
