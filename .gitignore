@@ -16,6 +16,9 @@ data.json
 # Generated MCP client (user-generated)
 generated_mcp_client.js
 
+# Claude Code settings (local development)
+.claude/
+
 # OS files
 .DS_Store
 Thumbs.db
