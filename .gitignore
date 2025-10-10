@@ -13,6 +13,9 @@ main.js
 # Obsidian plugin data (user-specific)
 data.json
 
+# Generated MCP client (user-generated)
+generated_mcp_client.js
+
 # OS files
 .DS_Store
 Thumbs.db
