@@ -370,6 +370,138 @@ const resources = [
 ];
 ```
 
+## Obsidian API Best Practices
+
+### Critical API Usage Guidelines
+
+1. **Use `Vault#configDir` instead of hardcoding `.obsidian`**
+   - Obsidian's config directory is user-configurable (default: `.obsidian`)
+   - Always use `this.app.vault.configDir` to access the configured value
+   - Example:
+   ```typescript
+   // ❌ Wrong
+   const path = '.obsidian/plugins/my-plugin/data.json';
+
+   // ✅ Correct
+   const path = `${this.app.vault.configDir}/plugins/my-plugin/data.json`;
+   ```
+
+2. **Use `vault.process()` for atomic file modifications**
+   - Prefer `vault.process()` over `vault.modify()` for atomic operations
+   - `process()` ensures file operations complete successfully before committing
+   - Example:
+   ```typescript
+   // ❌ Avoid
+   await this.app.vault.modify(file, content);
+
+   // ✅ Preferred
+   await this.app.vault.process(file, () => content);
+   ```
+
+3. **Use `app.fileManager.trashFile()` for deletions**
+   - Respects user preferences (trash vs permanent delete)
+   - Don't use `vault.delete()` directly
+   - Example:
+   ```typescript
+   // ❌ Wrong
+   await this.app.vault.delete(file);
+
+   // ✅ Correct
+   await this.app.fileManager.trashFile(file);
+   ```
+
+4. **Avoid `any` type casting - use `instanceof` checks**
+   - Use `FileSystemAdapter` with proper type guards
+   - Access vault base path type-safely with `getBasePath()`
+   - Example:
+   ```typescript
+   // ❌ Wrong
+   const basePath = (this.app.vault.adapter as any).basePath;
+
+   // ✅ Correct
+   import { FileSystemAdapter } from 'obsidian';
+
+   const adapter = this.app.vault.adapter;
+   if (adapter instanceof FileSystemAdapter) {
+     const basePath = adapter.getBasePath();
+   }
+   ```
+
+5. **Always use `normalizePath()` for path handling**
+   - Import from `obsidian` module
+   - Ensures cross-platform compatibility
+   - Prevents directory traversal attacks
+   - Example:
+   ```typescript
+   import { normalizePath } from 'obsidian';
+
+   const safePath = normalizePath(userInputPath);
+   ```
+
+### Settings UI Guidelines
+
+1. **Use sentence case for all settings**
+   - ❌ Wrong: "Auto-Start MCP Server"
+   - ✅ Correct: "Auto-start MCP server"
+
+2. **Use `.setHeading()` API for section headings**
+   ```typescript
+   // ✅ Correct
+   new Setting(containerEl)
+     .setName('Permissions')
+     .setHeading();
+   ```
+
+3. **Never use inline styles - use CSS classes**
+   - Create styles in `styles.css`
+   - Reference via `cls` parameter
+   ```typescript
+   // ❌ Wrong
+   el.style.marginBottom = '20px';
+
+   // ✅ Correct
+   el.createDiv({ cls: 'my-section' });
+   ```
+
+### Security Best Practices
+
+1. **Never use `innerHTML` or `outerHTML`**
+   - Use `.setText()`, `.createEl()`, or `.createDiv()` instead
+   - Prevents XSS vulnerabilities
+
+2. **Always validate and sanitize file paths**
+   - Check for directory traversal (`..`)
+   - Use `normalizePath()`
+   - Validate file extensions
+
+3. **Implement proper resource cleanup**
+   - Clean up event listeners in `onunload()`
+   - Close WebSocket connections
+   - Cancel pending operations
+
+### Required Policy Disclosures
+
+If your plugin requires any of the following, add a "Policy Disclosures" section to README.md:
+
+1. **Account requirement** (e.g., Claude Desktop, external services)
+2. **Network usage** (local servers, external APIs, cloud services)
+3. **File access outside vault** (system files, config files)
+
+Example:
+```markdown
+## Policy Disclosures
+
+### Account Requirement
+This plugin requires the Claude Desktop app to be installed and configured.
+
+### Network Use
+- Local WebSocket server on port 3010 for plugin-to-Claude communication
+- Claude Desktop may send data to Anthropic's cloud services
+
+### File Access
+Creates a generated_mcp_client.js file in the .obsidian/plugins directory.
+```
+
 ## AI Assistant Instructions
 
 When working on this codebase:
@@ -381,6 +513,7 @@ When working on this codebase:
 5. **Document decisions**: Especially around MCP protocol implementation choices
 6. **Think about user experience**: Connection status, error messages, permission requests
 7. **Reference existing patterns**: Check AGENTS.md for Obsidian conventions
+8. **Follow Obsidian API best practices**: See "Obsidian API Best Practices" section above
 
 ## Version Control
 

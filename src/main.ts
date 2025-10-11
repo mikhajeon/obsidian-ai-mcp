@@ -1,4 +1,4 @@
-import { Plugin } from 'obsidian';
+import { Plugin, FileSystemAdapter } from 'obsidian';
 import { MCPPluginSettings, DEFAULT_SETTINGS } from './types/settings';
 import { MCPServer } from './mcp/server';
 import { VaultService } from './services/vault-service';
@@ -174,7 +174,7 @@ process.on('SIGTERM', () => {
 connect();
 `;
 
-		const clientPath = '.obsidian/plugins/obsidian-ai-mcp/generated_mcp_client.js';
+		const clientPath = `${this.app.vault.configDir}/plugins/obsidian-ai-mcp/generated_mcp_client.js`;
 
 		try {
 			await this.app.vault.adapter.write(clientPath, clientCode);
@@ -185,8 +185,12 @@ connect();
 	}
 
 	async checkMCPClientExists(): Promise<boolean> {
-		const basePath = (this.app.vault.adapter as any).basePath;
-		const clientPath = `${basePath}/.obsidian/plugins/obsidian-ai-mcp/generated_mcp_client.js`;
+		const adapter = this.app.vault.adapter;
+		if (!(adapter instanceof FileSystemAdapter)) {
+			return false;
+		}
+		const basePath = adapter.getBasePath();
+		const clientPath = `${basePath}/${this.app.vault.configDir}/plugins/obsidian-ai-mcp/generated_mcp_client.js`;
 
 		try {
 			const fs = require('fs').promises;

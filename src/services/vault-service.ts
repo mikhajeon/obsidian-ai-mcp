@@ -54,7 +54,7 @@ export class VaultService {
 		if (!file || !(file instanceof TFile)) {
 			throw new FileNotFoundError(path);
 		}
-		await this.app.vault.delete(file);
+		await this.app.fileManager.trashFile(file);
 	}
 
 	async listFiles(folderPath = ''): Promise<FileInfo[]> {

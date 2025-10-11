@@ -1,4 +1,4 @@
-import { App, PluginSettingTab, Setting, Notice, Platform } from 'obsidian';
+import { App, PluginSettingTab, Setting, Notice, Platform, FileSystemAdapter } from 'obsidian';
 import MCPPlugin from '../main';
 
 export class MCPSettingTab extends PluginSettingTab {
@@ -40,8 +40,13 @@ export class MCPSettingTab extends PluginSettingTab {
 		setupDesc.setText(`Copy this configuration to: ${configPath}`);
 
 		// Generate vault path
-		const vaultPath = (this.app.vault.adapter as any).basePath;
-		const clientPath = `${vaultPath}/.obsidian/plugins/obsidian-ai-mcp/generated_mcp_client.js`;
+		const adapter = this.app.vault.adapter;
+		if (!(adapter instanceof FileSystemAdapter)) {
+			setupSection.createDiv({ cls: 'ai-mcp-warning' }).setText('⚠️ File system adapter not available. Cannot generate MCP client path.');
+			return;
+		}
+		const vaultPath = adapter.getBasePath();
+		const clientPath = `${vaultPath}/${this.app.vault.configDir}/plugins/obsidian-ai-mcp/generated_mcp_client.js`;
 		// Convert backslashes to forward slashes for JSON
 		const normalizedPath = clientPath.replace(/\\/g, '/');
 
