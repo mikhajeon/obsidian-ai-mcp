@@ -14,7 +14,7 @@ export interface MCPPluginSettings {
 }
 
 export const DEFAULT_SETTINGS: MCPPluginSettings = {
-	mcpServerEnabled: false,
+	mcpServerEnabled: true,
 	serverPort: 3010,
 	transportType: 'websocket',
 	enableWrite: true,
