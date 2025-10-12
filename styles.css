@@ -67,3 +67,60 @@
 .ai-mcp-commands-list li {
 	margin-bottom: 4px;
 }
+
+/* Server control container */
+.ai-mcp-server-control {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	margin-top: 15px;
+	padding-top: 15px;
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+/* Circular button */
+.ai-mcp-circular-button {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	border: 2px solid var(--interactive-accent);
+	background-color: var(--background-primary);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+	font-size: 20px;
+}
+
+.ai-mcp-circular-button:hover {
+	background-color: var(--interactive-accent);
+	transform: scale(1.05);
+}
+
+.ai-mcp-circular-button.ai-mcp-running {
+	background-color: var(--interactive-accent);
+	animation: pulse 2s infinite;
+}
+
+/* Icon inside button */
+.ai-mcp-icon {
+	display: block;
+	line-height: 1;
+}
+
+/* Status text */
+.ai-mcp-status-text {
+	font-size: 0.95em;
+	font-weight: 500;
+}
+
+/* Pulse animation for running state */
+@keyframes pulse {
+	0%, 100% {
+		box-shadow: 0 0 0 0 var(--interactive-accent);
+	}
+	50% {
+		box-shadow: 0 0 0 8px transparent;
+	}
+}

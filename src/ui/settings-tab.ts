@@ -107,6 +107,38 @@ export class MCPSettingTab extends PluginSettingTab {
 					})
 			);
 
+		// MCP Server Control Button (circular)
+		const serverControlContainer = setupSection.createDiv({ cls: 'ai-mcp-server-control' });
+		const isRunning = this.plugin.getMCPServerStatus() === 'Running';
+
+		const controlButton = serverControlContainer.createEl('button', {
+			cls: 'ai-mcp-circular-button' + (isRunning ? ' ai-mcp-running' : ''),
+		});
+
+		const icon = controlButton.createEl('span', { cls: 'ai-mcp-icon' });
+		icon.setText(isRunning ? '⏸' : '▶');
+
+		const statusText = serverControlContainer.createEl('span', { cls: 'ai-mcp-status-text' });
+		statusText.setText(isRunning ? 'Server running' : 'Server stopped');
+
+		controlButton.addEventListener('click', async () => {
+			try {
+				const currentStatus = this.plugin.getMCPServerStatus();
+				if (currentStatus === 'Running') {
+					await this.plugin.stopMCPServer();
+					new Notice('MCP server stopped');
+				} else {
+					await this.plugin.startMCPServer();
+					new Notice('MCP server started');
+				}
+				// Refresh display
+				this.display();
+			} catch (error) {
+				console.error('Error toggling MCP server:', error);
+				new Notice('Failed to toggle MCP server. Check console for details.');
+			}
+		});
+
 		// General settings (no heading, at top)
 		new Setting(containerEl)
 			.setName('Auto-start MCP server')
