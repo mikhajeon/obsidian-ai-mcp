@@ -59,7 +59,7 @@ export class MCPSettingTab extends PluginSettingTab {
   }
 }`;
 
-		// Check if mcp-client.js exists
+		// Check if generated_mcp_client.js exists
 		const clientExists = await this.plugin.checkMCPClientExists();
 
 		if (!clientExists) {

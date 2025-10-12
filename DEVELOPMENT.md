@@ -98,7 +98,7 @@ obsidian-ai-mcp/
 └─────────────────┘                            └──────────────────┘
         │                                               │
         │         stdio bridge                          │
-        ▼         (mcp-client.js)                      ▼
+        ▼         (generated_mcp_client.js)            ▼
 ┌─────────────────┐                          ┌──────────────────┐
 │  Node Process   │                          │  Vault Service   │
 │  JSON-RPC 2.0   │                          │  File Operations │
@@ -192,6 +192,8 @@ Before releasing a new version:
 - [ ] Plugin loads in Obsidian without errors
 - [ ] Tag release on GitHub
 - [ ] Attach manifest.json, main.js, styles.css to release
+- [ ] Release notes include manual installation instructions
+- [ ] Release notes mention Node.js prerequisite (v16.0+)
 
 ## Troubleshooting Development Issues
 

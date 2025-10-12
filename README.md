@@ -26,12 +26,30 @@ Claude works directly with your notes using natural language - no need to learn 
 
 ## Installation
 
+### Prerequisites
+
+Before installing, ensure you have:
+
+- **Node.js v16.0 or higher** - Required for MCP server communication
+  - Check: Run `node --version` in terminal
+  - Download: [nodejs.org](https://nodejs.org/)
+- **Claude Desktop** - Required to interact with the plugin
+  - Download: [claude.ai/download](https://claude.ai/download)
+
 ### Quick Install (Recommended)
 
 1. Open Obsidian **Settings**
 2. Go to **Community plugins** → **Browse**
 3. Search for **"AI MCP"**
 4. Click **Install**, then **Enable**
+
+### Manual Installation
+
+1. Download `main.js`, `manifest.json`, and `styles.css` from the [latest release](https://github.com/mikhajeon/obsidian-ai-mcp/releases)
+2. Create folder: `{VaultFolder}/.obsidian/plugins/obsidian-ai-mcp/`
+3. Copy the three files into this folder
+4. Reload Obsidian
+5. Enable the plugin in Settings → Community plugins
 
 ### Setup Claude Desktop Connection
 
