@@ -115,6 +115,14 @@
 	font-weight: 500;
 }
 
+.ai-mcp-status-running {
+	color: #4caf50;
+}
+
+.ai-mcp-status-stopped {
+	color: #666;
+}
+
 /* Pulse animation for running state */
 @keyframes pulse {
 	0%, 100% {

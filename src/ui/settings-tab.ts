@@ -118,7 +118,9 @@ export class MCPSettingTab extends PluginSettingTab {
 		const icon = controlButton.createEl('span', { cls: 'ai-mcp-icon' });
 		icon.setText(isRunning ? '■' : '▶');
 
-		const statusText = serverControlContainer.createEl('span', { cls: 'ai-mcp-status-text' });
+		const statusText = serverControlContainer.createEl('span', {
+			cls: 'ai-mcp-status-text' + (isRunning ? ' ai-mcp-status-running' : ' ai-mcp-status-stopped')
+		});
 		statusText.setText(isRunning ? 'Server running' : 'Server stopped');
 
 		controlButton.addEventListener('click', async () => {
