@@ -160,13 +160,25 @@ export class MCPSettingTab extends PluginSettingTab {
 			.setHeading();
 
 		new Setting(containerEl)
-			.setName('Enable write operations')
-			.setDesc('Allow Claude to create and update notes')
+			.setName('Enable create operations')
+			.setDesc('Allow Claude to create new notes')
 			.addToggle((toggle) =>
 				toggle
-					.setValue(this.plugin.settings.enableWrite)
+					.setValue(this.plugin.settings.enableCreate)
 					.onChange(async (value) => {
-						this.plugin.settings.enableWrite = value;
+						this.plugin.settings.enableCreate = value;
+						await this.plugin.saveSettings();
+					})
+			);
+
+		new Setting(containerEl)
+			.setName('Enable update operations')
+			.setDesc('Allow Claude to modify existing notes')
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.enableUpdate)
+					.onChange(async (value) => {
+						this.plugin.settings.enableUpdate = value;
 						await this.plugin.saveSettings();
 					})
 			);

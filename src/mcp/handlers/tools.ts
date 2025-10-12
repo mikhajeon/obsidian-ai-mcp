@@ -65,8 +65,8 @@ export class ToolHandler {
 	}
 
 	private async writeNote(args: WriteNoteArgs): Promise<ToolResult> {
-		if (!this.settings.enableWrite) {
-			throw new PermissionDeniedError('write operations');
+		if (!this.settings.enableCreate) {
+			throw new PermissionDeniedError('create operations');
 		}
 
 		if (!this.vaultService.validatePath(args.path)) {
@@ -89,7 +89,7 @@ export class ToolHandler {
 	}
 
 	private async updateNote(args: UpdateNoteArgs): Promise<ToolResult> {
-		if (!this.settings.enableWrite) {
+		if (!this.settings.enableUpdate) {
 			throw new PermissionDeniedError('update operations');
 		}
 

@@ -5,7 +5,8 @@ export interface MCPPluginSettings {
 	transportType: 'websocket' | 'stdio';
 
 	// Features
-	enableWrite: boolean;
+	enableCreate: boolean;
+	enableUpdate: boolean;
 	enableDelete: boolean;
 
 	// Advanced
@@ -17,7 +18,8 @@ export const DEFAULT_SETTINGS: MCPPluginSettings = {
 	mcpServerEnabled: true,
 	serverPort: 3010,
 	transportType: 'websocket',
-	enableWrite: true,
+	enableCreate: true,
+	enableUpdate: true,
 	enableDelete: false,
 	logLevel: 'info',
 	maxConcurrentRequests: 5,

@@ -37,7 +37,16 @@ export default class MCPPlugin extends Plugin {
 	}
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+		const loadedData = await this.loadData();
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, loadedData);
+
+		// Migration: Convert old enableWrite to new enableCreate/enableUpdate
+		if (loadedData && 'enableWrite' in loadedData && !('enableCreate' in loadedData)) {
+			const oldEnableWrite = loadedData.enableWrite as boolean;
+			this.settings.enableCreate = oldEnableWrite;
+			this.settings.enableUpdate = oldEnableWrite;
+			await this.saveSettings();
+		}
 	}
 
 	async saveSettings() {
