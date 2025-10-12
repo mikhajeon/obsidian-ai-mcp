@@ -116,11 +116,11 @@
 }
 
 .ai-mcp-status-running {
-	color: #4caf50;
+	color: var(--color-green);
 }
 
 .ai-mcp-status-stopped {
-	color: #666;
+	color: var(--text-muted);
 }
 
 /* Pulse animation for running state */
